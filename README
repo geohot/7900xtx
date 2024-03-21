@@ -1,3 +1,162 @@
 sudo apt-get install linux-generic-hwe-22.04
-sudo apt-get install libhsa-runtime-dev
 
+add user to render+video groups
+
+install: hsa-rocr comgr
+
+then tinygrad works, driver on 6.5.0 is fine
+
+HSAKMT_DEBUG_LEVEL=7
+
+sudo su -c "echo 'file drivers/gpu/drm/amd/* +p' > /sys/kernel/debug/dynamic_debug/control"
+
+
+[45863.864604] amdgpu 0000:07:00.0:
+amdgpu: smu driver if version = 0x0000003d, smu fw if version = 0x0000003b, smu fw program = 0, smu fw version = 0x004e5500 (78.85.0)
+
+
+[46444.513680] [drm] amdgpu kernel modesetting enabled.
+[46444.513978] amdgpu: CRAT table disabled by module option
+[46444.513986] amdgpu: Virtual CRAT table created for CPU
+[46444.514013] amdgpu: Topology: Add CPU node
+[46444.514595] [drm] initializing kernel modesetting (IP DISCOVERY 0x1002:0x744C 0x1002:0x0E3B 0xC8).
+[46444.514638] [drm] register mmio base: 0xFB300000
+[46444.514641] [drm] register mmio size: 1048576
+[46444.520723] [drm] add ip block number 0 <soc21_common>
+[46444.520729] [drm] add ip block number 1 <gmc_v11_0>
+[46444.520733] [drm] add ip block number 2 <ih_v6_0>
+[46444.520735] [drm] add ip block number 3 <psp>
+[46444.520737] [drm] add ip block number 4 <smu>
+[46444.520740] [drm] add ip block number 5 <dm>
+[46444.520742] [drm] add ip block number 6 <gfx_v11_0>
+[46444.520745] [drm] add ip block number 7 <sdma_v6_0>
+[46444.520747] [drm] add ip block number 8 <vcn_v4_0>
+[46444.520749] [drm] add ip block number 9 <jpeg_v4_0>
+[46444.520752] [drm] add ip block number 10 <mes_v11_0>
+
+
+[46445.043255] [drm] Loading DMUB firmware via PSP: version=0x07000A01
+
+
+
+
+
+codename for 7900XTX is Plum Bonito (aka Navi 31)
+
+
+kafka@q:~/tinygrad$ /opt/rocm/bin/rocm-smi --showfwinfo
+
+
+============================ ROCm System Management Interface ============================
+================================== Firmware Information ==================================
+GPU[0]          : ASD firmware version:         0x2100009a
+GPU[0]          : CE firmware version:          0
+GPU[0]          : DMCU firmware version:        0
+GPU[0]          : MC firmware version:          0
+GPU[0]          : ME firmware version:          1498
+GPU[0]          : MEC firmware version:         510
+GPU[0]          : MEC2 firmware version:        0
+GPU[0]          : get_firmware_version_MES, Not supported on the given system
+GPU[0]          : get_firmware_version_MES KIQ, Not supported on the given system
+GPU[0]          : PFP firmware version:         1541
+GPU[0]          : RLC firmware version:         116
+GPU[0]          : RLC SRLC firmware version:    0
+GPU[0]          : RLC SRLG firmware version:    0
+GPU[0]          : RLC SRLS firmware version:    0
+GPU[0]          : SDMA firmware version:        19
+GPU[0]          : SDMA2 firmware version:       19
+GPU[0]          : SMC firmware version:         00.78.85.00
+GPU[0]          : SOS firmware version:         0x00310025
+GPU[0]          : TA RAS firmware version:      27.00.02.01
+GPU[0]          : TA XGMI firmware version:     00.00.00.00
+GPU[0]          : UVD firmware version:         0x00000000
+GPU[0]          : VCE firmware version:         0x00000000
+GPU[0]          : VCN firmware version:         0x0510b023
+==========================================================================================
+================================== End of ROCm SMI Log ===================================
+
+
+root@q:/sys/kernel/debug/dri/1# cat amdgpu_firmware_info
+VCE feature version: 0, firmware version: 0x00000000
+UVD feature version: 0, firmware version: 0x00000000
+MC feature version: 0, firmware version: 0x00000000
+ME feature version: 29, firmware version: 0x000005da
+PFP feature version: 29, firmware version: 0x00000605
+CE feature version: 0, firmware version: 0x00000000
+RLC feature version: 1, firmware version: 0x00000074
+RLC SRLC feature version: 0, firmware version: 0x00000000
+RLC SRLG feature version: 0, firmware version: 0x00000000
+RLC SRLS feature version: 0, firmware version: 0x00000000
+RLCP feature version: 1, firmware version: 0x00000019
+RLCV feature version: 1, firmware version: 0x00000022
+MEC feature version: 29, firmware version: 0x000001fe
+IMU feature version: 0, firmware version: 0x0b1f3600
+SOS feature version: 3211301, firmware version: 0x00310025
+ASD feature version: 553648282, firmware version: 0x2100009a
+TA XGMI feature version: 0x00000000, firmware version: 0x00000000
+TA RAS feature version: 0x00000000, firmware version: 0x1b000201
+TA HDCP feature version: 0x00000000, firmware version: 0x17000031
+TA DTM feature version: 0x00000000, firmware version: 0x12000013
+TA RAP feature version: 0x00000000, firmware version: 0x00000000
+TA SECUREDISPLAY feature version: 0x00000000, firmware version: 0x00000000
+SMC feature version: 0, program: 0, firmware version: 0x004e5500 (78.85.0)
+SDMA0 feature version: 60, firmware version: 0x00000013
+SDMA1 feature version: 60, firmware version: 0x00000013
+VCN feature version: 0, firmware version: 0x0510b023
+DMCU feature version: 0, firmware version: 0x00000000
+DMCUB feature version: 0, firmware version: 0x07000a01
+TOC feature version: 12, firmware version: 0x0000000c
+MES_KIQ feature version: 6, firmware version: 0x0000006a
+MES feature version: 1, firmware version: 0x00000034
+VBIOS version: 113-D7020100-102
+root@q:/sys/kernel/debug/dri/1#
+
+kafka@q:/lib/firmware/amdgpu$ ls -lh gc_11_0_0_*
+-rw-r--r-- 1 root root 130K Feb 21 09:32 gc_11_0_0_imu.bin
+-rw-r--r-- 1 root root 186K Feb 21 09:32 gc_11_0_0_me.bin
+-rw-r--r-- 1 root root 398K Feb 21 09:32 gc_11_0_0_mec.bin
+-rw-r--r-- 1 root root 207K Feb 21 09:32 gc_11_0_0_mes1.bin
+-rw-r--r-- 1 root root 283K Feb 21 09:32 gc_11_0_0_mes_2.bin
+-rw-r--r-- 1 root root 280K Feb 21 09:32 gc_11_0_0_mes.bin
+-rw-r--r-- 1 root root 204K Feb 21 09:32 gc_11_0_0_pfp.bin
+-rw-r--r-- 1 root root 181K Feb 21 09:32 gc_11_0_0_rlc.bin
+
+CP
+MES
+SDMA
+
+https://lists.freedesktop.org/archives/amd-gfx/2022-April/078410.html
+
+This patch set enables support for MES (Micro Engine Scheduler).  This
+is similar the the HWS (HardWare Scheduler) on the MEC currently used
+for KFD.  It's a scheduling microcontroller used for scheduling
+engine queues to hardware slots.  This adds the basic infrastructure
+to enable MES in amdgpu.
+
+https://docs.kernel.org/gpu/amdgpu/driver-core.html
+https://wiki.gentoo.org/wiki/AMDGPU
+
+NAVI31
+amdgpu/gc_11_0_0_{imu,pfp,me,rlc,mec,mes,mes1,mes_2}.bin
+amdgpu/psp_13_0_0_{sos,ta}.bin (has strings!)
+amdgpu/smu_13_0_0.bin
+amdgpu/dcn_3_2_0_dmcub.bin (DMUB loaded via PSP)
+amdgpu/sdma_6_0_0.bin
+amdgpu/vcn_4_0_0.bin (a few strings)
+
+GC = Graphics and Compute
+  CP (Command Processor) = PFP,ME,CE,MEC
+  RLC (RunList Controller)
+PSP = Platform Security Processor
+SMU = System Management Unit
+DCN = Display Core Next
+SDMA = System DMA
+VCN = Video Core Next (encoder/decoder)
+
+/lib/firmware/amdgpu/gc_11_0_0_{imu,pfp,me,rlc,mec,mes,mes1,mes_2}.bin
+
+https://github.com/amezin/amdgpu-pptable
+
+tools!!!
+https://github.com/fail0verflow/radeon-tools/tree/master/f32
+https://github.com/AMDESE/amd_ucode_info
