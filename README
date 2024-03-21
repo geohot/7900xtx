@@ -1,0 +1,3 @@
+sudo apt-get install linux-generic-hwe-22.04
+sudo apt-get install libhsa-runtime-dev
+
