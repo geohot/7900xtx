@@ -144,11 +144,44 @@ amdgpu/dcn_3_2_0_dmcub.bin (DMUB loaded via PSP)
 amdgpu/sdma_6_0_0.bin
 amdgpu/vcn_4_0_0.bin (a few strings)
 
+/*
+ * Due to DF Cstate management centralized to PMFW, the firmware
+ * loading sequence will be updated as below:
+ *   - Load KDB
+ *   - Load SYS_DRV
+ *   - Load tOS
+ *   - Load PMFW
+ *   - Setup TMR
+ *   - Load other non-psp fw
+ *   - Load ASD
+ *   - Load XGMI/RAS/HDCP/DTM TA if any
+ *
+ * This new sequence is required for
+ *   - Arcturus and onwards
+ */
+
+In the interest of feasibility, open source the firmware for the GC (CP, MES, RLC, PFP, ME, IMU, MEC) and the SDMA + provide relevant docs.
+That's what we need to make the 7900XTX a performant and reliable ML accelerator.
+No need to touch signing, no need to open source PSP or SMU.
+
+If 0 relevant docs or code by Monday, we are done, dumping 72 7900XTX on eBay. Not going to help those who don't want to help themselves.
+
+If using AMD is *harder* than taping out our own chip, we'll skip AMD and tape out a chip.
+
 GC = Graphics and Compute
-  CP (Command Processor) = PFP,ME,CE,MEC
-  RLC (RunList Controller)
+  CP (Command Processor) = PFP,ME,CE,MEC (PFP+ME = Drawing Engine)
+    PFP = Pre-Fetch Parser
+    ME = Micro Engine
+    CE = Constant Engine
+    MEC1 = Micro Engine Compute 1
+    MEC2 = Micro Engine Compute 2
+    IMU = Integrated Memory Controller Utility
+  MES = Micro Engine Scheduler
+  RLC = RunList Controller
+  IMU =
 PSP = Platform Security Processor
-  SOS
+  SOS = Secure Operating System
+  TA = Trusted Application
   KDB
   TMR = Trusted Memory Region
 SMU = System Management Unit
@@ -157,6 +190,11 @@ SDMA = System DMA
 VCN = Video Core Next (encoder/decoder)
 
 /lib/firmware/amdgpu/gc_11_0_0_{imu,pfp,me,rlc,mec,mes,mes1,mes_2}.bin
+
+BACO (Bus Active, Chip Off)
+
+https://www.kernel.org/doc/html/v6.8/gpu/amdgpu/amdgpu-glossary.html
+MQD: Memory Queue Descriptor
 
 https://github.com/amezin/amdgpu-pptable
 

@@ -7,12 +7,16 @@ import sys
 sys.path.append(os.environ["HOME"] + "/tinygrad")
 
 #os.environ["HSAKMT_DEBUG_LEVEL"] = "7"
-#from extra.hip_gpu_driver import hip_ioctl
+from extra.hip_gpu_driver import hip_ioctl
 
 import ctypes
 import tinygrad.runtime.autogen.hsa as hsa
 from tinygrad.helpers import init_c_var, from_mv
 from tinygrad.runtime.driver import hsa as hsa_driver
+
+from tinygrad.runtime.ops_hsa import HSAProgram, HSACompiler
+from hexdump import hexdump
+#lib = HSACompiler("gfx1100").compile("void test() {}")
 
 def check(status):
   if status != 0:
@@ -46,7 +50,7 @@ global_size, local_size = [0x10,0x10,0x10], [0x10, 0x10, 0x10]
 private_segment_size = 0x1000
 group_segment_size = 0x1000
 handle = 12312
-kernargs = 49843
+kernargs = 0
 
 packet = hsa.hsa_kernel_dispatch_packet_t.from_address(write_addr)
 packet.workgroup_size_x = local_size[0]
@@ -70,11 +74,12 @@ packet.header = hsa_driver.DISPATCH_KERNEL_HEADER
 #ctypes.memmove(write_addr, from_mv(dat.data), 0x100)
 
 # ring doorbell
+print("DING DONG")
 next_doorbell_index += 1
 hsa.hsa_queue_store_write_index_relaxed(hw_queue, next_doorbell_index)
 hsa.hsa_signal_store_screlease(hw_queue.contents.doorbell_signal, next_doorbell_index-1)
 
-time.sleep(1)
+time.sleep(5)
 
 
 check(hsa.hsa_queue_destroy(hw_queue))
