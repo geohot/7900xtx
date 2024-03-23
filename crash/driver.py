@@ -1,8 +1,13 @@
+#!/usr/bin/env python3
 import os, ctypes, pathlib, re, fcntl, functools, mmap
 import kfd
 #import tinygrad.runtime.autogen.kfd as kfd
 #from tinygrad.helpers import to_mv
-#from extra.hip_gpu_driver import hip_ioctl
+
+try:
+  from extra.hip_gpu_driver import hip_ioctl
+except ImportError:
+  pass
 
 libc = ctypes.CDLL("libc.so.6")
 libc.mmap.argtypes = [ctypes.c_void_p, ctypes.c_size_t, ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_long]
@@ -40,7 +45,11 @@ kio = ioctls_from_header()
 if __name__ == "__main__":
   fd = os.open("/dev/kfd", os.O_RDWR)
   drm_fd = os.open("/dev/dri/renderD128", os.O_RDWR)
-  GPU_ID = 0xBFE4
+  with open("/sys/devices/virtual/kfd/kfd/topology/nodes/1/gpu_id", "r") as f:
+    GPU_ID = int(f.read())
+
+  #GPU_ID = 17213
+  #GPU_ID = 0xBFE4
 
   ver = kio.get_version(fd)
   st = kio.acquire_vm(fd, drm_fd=drm_fd, gpu_id=GPU_ID)
