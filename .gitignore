@@ -1,3 +1,4 @@
 .*.swp
 a.out
 tools
+*.pyc
