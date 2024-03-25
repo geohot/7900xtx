@@ -176,7 +176,7 @@ GC = Graphics and Compute
     MEC1 = Micro Engine Compute 1
     MEC2 = Micro Engine Compute 2
     IMU = Integrated Memory Controller Utility
-  MES = Micro Engine Scheduler
+    MES = Micro Engine Scheduler
   RLC = RunList Controller
   IMU =
 PSP = Platform Security Processor
@@ -190,11 +190,14 @@ SDMA = System DMA
 VCN = Video Core Next (encoder/decoder)
 
 /lib/firmware/amdgpu/gc_11_0_0_{imu,pfp,me,rlc,mec,mes,mes1,mes_2}.bin
+https://mjmwired.net/kernel/Documentation/gpu/amdgpu/driver-core.rst
 
 BACO (Bus Active, Chip Off)
 
 https://www.kernel.org/doc/html/v6.8/gpu/amdgpu/amdgpu-glossary.html
 MQD: Memory Queue Descriptor
+GMC: Graphic Memory Controller (gmc_v11_0_process_interrupt: 19 callbacks suppressed)
+gfxhub:
 
 https://github.com/amezin/amdgpu-pptable
 
@@ -210,3 +213,64 @@ sudo insmod drivers/gpu/drm/amd/amdgpu/amdgpu.ko
 
 
 sudo rmmod amdgpu && make -C . M=drivers/gpu/drm/amd/amdgpu && sudo insmod drivers/gpu/drm/amd/amdgpu/amdgpu.ko
+
+Crash:
+[  856.857393] amdgpu 0000:07:00.0: amdgpu: [gfxhub] page fault (src_id:0 ring:40 vmid:8 pasid:32769, for process python3 pid 2980 thread python3 pid 2980)
+[  856.857407] amdgpu 0000:07:00.0: amdgpu:   in page starting at address 0x0000000000000000 from client 10
+[  856.857415] amdgpu 0000:07:00.0: amdgpu: GCVM_L2_PROTECTION_FAULT_STATUS:0x00840A50
+[  856.857420] amdgpu 0000:07:00.0: amdgpu:      Faulty UTCL2 client ID: CPC (0x5)
+[  856.857425] amdgpu 0000:07:00.0: amdgpu:      MORE_FAULTS: 0x0
+[  856.857430] amdgpu 0000:07:00.0: amdgpu:      WALKER_ERROR: 0x0
+[  856.857434] amdgpu 0000:07:00.0: amdgpu:      PERMISSION_FAULTS: 0x5
+[  856.857438] amdgpu 0000:07:00.0: amdgpu:      MAPPING_ERROR: 0x0
+[  856.857442] amdgpu 0000:07:00.0: amdgpu:      RW: 0x1
+
+
+UMR wave dump
+https://themaister.net/blog/2023/08/20/hardcore-vulkan-debugging-digging-deep-on-linux-amdgpu/
+https://martty.github.io/posts/radbg_part_4/
+
+kafka@q:/sys/class/drm/card0/device/fw_version$ sudo umr -lb
+[WARNING]: Unknown ASIC [amd744c] should be added to pci.did to get proper name
+        amd744c.df421{5} (4.2.1)
+        amd744c.df421{3} (4.2.1)
+        amd744c.df421{1} (4.2.1)
+        amd744c.df421{6} (4.2.1)
+        amd744c.df421{4} (4.2.1)
+        amd744c.df421{2} (4.2.1)
+        amd744c.df420 (4.2.0)
+        amd744c.mp11300 (13.0.0)
+        amd744c.lsdma600 (6.0.0)
+        amd744c.mmhub300 (3.0.0)
+        amd744c.osssys600 (6.0.0)
+        amd744c.vcn401{1} (4.0.1)
+        amd744c.vcn400 (4.0.0)
+        amd744c.hdp600 (6.0.0)
+        amd744c.smuio1306 (13.0.6)
+        amd744c.nbio430 (4.3.0)
+        amd744c.athub300 (3.0.0)
+        amd744c.dcn320 (3.2.0)
+        amd744c.thm1305{5} (13.0.5)
+        amd744c.thm1305{3} (13.0.5)
+        amd744c.thm1305{1} (13.0.5)
+        amd744c.thm1305{6} (13.0.5)
+        amd744c.thm1305{4} (13.0.5)
+        amd744c.thm1305{2} (13.0.5)
+        amd744c.thm1303 (13.0.3)
+        amd744c.mp01300 (13.0.0)
+        amd744c.umc8100{5} (8.10.0)
+        amd744c.umc8100{3} (8.10.0)
+        amd744c.umc8100{1} (8.10.0)
+        amd744c.umc8100{4} (8.10.0)
+        amd744c.umc8100{2} (8.10.0)
+        amd744c.umc8100{0} (8.10.0)
+        amd744c.gfx1100 (11.0.0)
+
+# list regs with bits
+sudo umr -lr amd744c.gfx1100 -O bits
+
+# dump regs
+sudo umr -s amd744c.gfx1100
+
+sudo rmmod amdgpu
+sudo modprobe amdgpu gpu_recovery=0
