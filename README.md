@@ -1,5 +1,5 @@
 # Documentation for the 7900XTX
-aka Navi31 aka Plum Bonito aka amd744c
+aka Navi31 aka gfx1100 aka Plum Bonito aka amd744c
 
 - PSP = Platform Security Processor (ARM)
   - SOS = Secure Operating System (psp_13_0_0_sos.bin)
@@ -9,7 +9,7 @@ aka Navi31 aka Plum Bonito aka amd744c
 - SMU = System Management Unit (smuio1306) (amdgpu/smu_13_0_0.bin)
 - DCN = Display Core Next (dcn320) (amdgpu/dcn_3_2_0_dmcub.bin)
 - GC = Graphics and Compute (gfx1100)
-  - CP (Command Processor) = PFP,ME,CE,MEC (PFP+ME = Drawing Engine)
+  - [CP](/docs/CP.md) (Command Processor) = PFP,ME,CE,MEC (PFP+ME = Drawing Engine)
   - PFP = Pre-Fetch Parser (gc_11_0_0_pfp.bin)
   - ME = Micro Engine (gc_11_0_0_me.bin)
   - RLC = RunList Controller (gc_11_0_0_rlc.bin)
@@ -40,6 +40,28 @@ sudo umr -lr amd744c.gfx1100 -O bits
 # dump regs
 sudo umr -s amd744c.gfx1100
 ```
+
+## umr --top
+
+```
+GRBM (Graphics Register Backbone Manager) Bits:
+                 TA =>    95.0 % |                GDS =>     0.0 %
+                 SX =>     0.0 % |                SPI =>    96.0 %
+                BCI =>     0.0 % |                 SC =>     0.0 %
+                 PA =>     0.0 % |                 DB =>     0.0 %
+       CP_COHERENCY =>     0.0 % |                 CP =>    97.0 %
+                 CB =>     0.0 % |                GUI =>    97.0 %
+                 GE =>     0.0 % |                RLC =>    96.0 %
+                CPF =>    97.0 % |                CPC =>    97.0 %
+                CPG =>     0.0 % |
+
+TA (Texture Addresser) Bits:
+                 IN =>    33.0 % |                 FG =>     0.0 %
+                 LA =>     0.0 % |                 FL =>     0.0 %
+                 TA =>     0.0 % |                 FA =>    44.0 %
+                 AL =>    70.0 % |
+```
+
 
 ## Installing AMDGPU
 
@@ -81,6 +103,7 @@ HSAKMT_DEBUG_LEVEL=7  # user space debugging
 - https://gpuopen.com/presentations/2023/RDNA3_Beyond-the-current-gen-v4.pdf
 - https://bu-icsg.github.io/publications/2022/navisim_pact_2022.pdf
 - https://gpuopen.com/rdna/
+- https://github.com/fail0verflow/radeon-tools
 
 ## More Acronyms
 
@@ -198,4 +221,140 @@ VBIOS version: 113-D7020100-102
 [80568.562537] amdgpu_ucode_request amdgpu/gc_11_0_0_mes1.bin
 [80569.088855] amdgpu_ucode_request amdgpu/gc_11_0_0_imu.bin
 [80569.089068] amdgpu_ucode_request amdgpu/sdma_6_0_0.bin
+```
+
+## Firmware loads
+
+```
+[ 1370.296802] psp_prep_load_ip_fw_cmd_buf: 0000000000C49000  type:18 sz:0x3fe00
+[ 1431.136232] psp_prep_load_ip_fw_cmd_buf: 0000000000C49000  type:18 sz:0x3fe00
+[ 1432.229979] psp_prep_load_ip_fw_cmd_buf: 0000000000A00000  type:71 sz:0x4400
+[ 1432.234035] psp_prep_load_ip_fw_cmd_buf: 0000000000A05000  type:72 sz:0x4200
+[ 1432.237930] psp_prep_load_ip_fw_cmd_buf: 0000000000A0A000  type:87 sz:0x10b70
+[ 1432.242088] psp_prep_load_ip_fw_cmd_buf: 0000000000A1B000  type:88 sz:0xc350
+[ 1432.246220] psp_prep_load_ip_fw_cmd_buf: 0000000000A28000  type:89 sz:0x41520
+[ 1432.252719] psp_prep_load_ip_fw_cmd_buf: 0000000000A6A000  type:90 sz:0x22000
+[ 1432.256295] psp_prep_load_ip_fw_cmd_buf: 0000000000A8C000  type:91 sz:0x22000
+[ 1432.259908] psp_prep_load_ip_fw_cmd_buf: 0000000000AAE000  type:92 sz:0x22000
+[ 1432.263390] psp_prep_load_ip_fw_cmd_buf: 0000000000AD0000  type:93 sz:0x22000
+[ 1432.267162] psp_prep_load_ip_fw_cmd_buf: 0000000000AF2000  type:94 sz:0x22000
+[ 1432.271029] psp_prep_load_ip_fw_cmd_buf: 0000000000B14000  type:95 sz:0x22000
+[ 1432.274775] psp_prep_load_ip_fw_cmd_buf: 0000000000B36000  type:96 sz:0x22000
+[ 1432.278344] psp_prep_load_ip_fw_cmd_buf: 0000000000B58000  type:97 sz:0x22000
+[ 1432.281782] psp_prep_load_ip_fw_cmd_buf: 0000000000B7A000  type:33 sz:0x26900
+[ 1432.286907] psp_prep_load_ip_fw_cmd_buf: 0000000000BA1000  type:34 sz:0x20000
+[ 1432.290773] psp_prep_load_ip_fw_cmd_buf: 0000000000BC1000  type:81 sz:0x139f0
+[ 1432.295392] psp_prep_load_ip_fw_cmd_buf: 0000000000BD5000  type:82 sz:0x20000
+[ 1432.299012] psp_prep_load_ip_fw_cmd_buf: 0000000000BF5000  type:68 sz:0x10200
+[ 1432.303549] psp_prep_load_ip_fw_cmd_buf: 0000000000C06000  type:69 sz:0x10200
+[ 1432.307778] psp_prep_load_ip_fw_cmd_buf: 0000000000C17000  type:20 sz:0xa00
+[ 1432.311519] psp_prep_load_ip_fw_cmd_buf: 0000000000C18000  type:21 sz:0x8da0
+[ 1432.315520] psp_prep_load_ip_fw_cmd_buf: 0000000000C21000  type:26 sz:0x10200
+[ 1432.319925] psp_prep_load_ip_fw_cmd_buf: 0000000000C32000  type:48 sz:0x8200
+[ 1432.323649] psp_prep_load_ip_fw_cmd_buf: 0000000000C3B000  type:25 sz:0x2200
+[ 1432.327185] psp_prep_load_ip_fw_cmd_buf: 0000000000C3E000  type:7 sz:0x3200
+[ 1432.331122] psp_prep_load_ip_fw_cmd_buf: 0000000000C42000  type:8 sz:0x6200
+[ 1432.335348] psp_prep_load_ip_fw_cmd_buf: 0000000000C89000  type:13 sz:0x5dc50
+[ 1432.343011] psp_prep_load_ip_fw_cmd_buf: 0000000000CE7000  type:58 sz:0x5dc50
+[ 1432.350895] psp_prep_load_ip_fw_cmd_buf: 0000000000D45000  type:51 sz:0x41690
+```
+
+```C
+/* FW types for GFX_CMD_ID_LOAD_IP_FW command. Limit 31. */
+enum psp_gfx_fw_type {
+	GFX_FW_TYPE_NONE        = 0,    /* */
+	GFX_FW_TYPE_CP_ME       = 1,    /* CP-ME                    VG + RV */
+	GFX_FW_TYPE_CP_PFP      = 2,    /* CP-PFP                   VG + RV */
+	GFX_FW_TYPE_CP_CE       = 3,    /* CP-CE                    VG + RV */
+	GFX_FW_TYPE_CP_MEC      = 4,    /* CP-MEC FW                VG + RV */
+	GFX_FW_TYPE_CP_MEC_ME1  = 5,    /* CP-MEC Jump Table 1      VG + RV */
+	GFX_FW_TYPE_CP_MEC_ME2  = 6,    /* CP-MEC Jump Table 2      VG      */
+	GFX_FW_TYPE_RLC_V       = 7,    /* RLC-V                    VG      */
+	GFX_FW_TYPE_RLC_G       = 8,    /* RLC-G                    VG + RV */
+	GFX_FW_TYPE_SDMA0       = 9,    /* SDMA0                    VG + RV */
+	GFX_FW_TYPE_SDMA1       = 10,   /* SDMA1                    VG      */
+	GFX_FW_TYPE_DMCU_ERAM   = 11,   /* DMCU-ERAM                VG + RV */
+	GFX_FW_TYPE_DMCU_ISR    = 12,   /* DMCU-ISR                 VG + RV */
+	GFX_FW_TYPE_VCN         = 13,   /* VCN                           RV */
+	GFX_FW_TYPE_UVD         = 14,   /* UVD                      VG      */
+	GFX_FW_TYPE_VCE         = 15,   /* VCE                      VG      */
+	GFX_FW_TYPE_ISP         = 16,   /* ISP                           RV */
+	GFX_FW_TYPE_ACP         = 17,   /* ACP                           RV */
+	GFX_FW_TYPE_SMU         = 18,   /* SMU                      VG      */
+	GFX_FW_TYPE_MMSCH       = 19,   /* MMSCH                    VG      */
+	GFX_FW_TYPE_RLC_RESTORE_LIST_GPM_MEM        = 20,   /* RLC GPM                  VG + RV */
+	GFX_FW_TYPE_RLC_RESTORE_LIST_SRM_MEM        = 21,   /* RLC SRM                  VG + RV */
+	GFX_FW_TYPE_RLC_RESTORE_LIST_SRM_CNTL       = 22,   /* RLC CNTL                 VG + RV */
+	GFX_FW_TYPE_UVD1        = 23,   /* UVD1                     VG-20   */
+	GFX_FW_TYPE_TOC         = 24,   /* TOC                      NV-10   */
+	GFX_FW_TYPE_RLC_P                           = 25,   /* RLC P                    NV      */
+	GFX_FW_TYPE_RLC_IRAM                        = 26,   /* RLC_IRAM                 NV      */
+	GFX_FW_TYPE_GLOBAL_TAP_DELAYS               = 27,   /* GLOBAL TAP DELAYS        NV      */
+	GFX_FW_TYPE_SE0_TAP_DELAYS                  = 28,   /* SE0 TAP DELAYS           NV      */
+	GFX_FW_TYPE_SE1_TAP_DELAYS                  = 29,   /* SE1 TAP DELAYS           NV      */
+	GFX_FW_TYPE_GLOBAL_SE0_SE1_SKEW_DELAYS      = 30,   /* GLOBAL SE0/1 SKEW DELAYS NV      */
+	GFX_FW_TYPE_SDMA0_JT                        = 31,   /* SDMA0 JT                 NV      */
+	GFX_FW_TYPE_SDMA1_JT                        = 32,   /* SDNA1 JT                 NV      */
+	GFX_FW_TYPE_CP_MES                          = 33,   /* CP MES                   NV      */
+	GFX_FW_TYPE_MES_STACK                       = 34,   /* MES STACK                NV      */
+	GFX_FW_TYPE_RLC_SRM_DRAM_SR                 = 35,   /* RLC SRM DRAM             NV      */
+	GFX_FW_TYPE_RLCG_SCRATCH_SR                 = 36,   /* RLCG SCRATCH             NV      */
+	GFX_FW_TYPE_RLCP_SCRATCH_SR                 = 37,   /* RLCP SCRATCH             NV      */
+	GFX_FW_TYPE_RLCV_SCRATCH_SR                 = 38,   /* RLCV SCRATCH             NV      */
+	GFX_FW_TYPE_RLX6_DRAM_SR                    = 39,   /* RLX6 DRAM                NV      */
+	GFX_FW_TYPE_SDMA0_PG_CONTEXT                = 40,   /* SDMA0 PG CONTEXT         NV      */
+	GFX_FW_TYPE_SDMA1_PG_CONTEXT                = 41,   /* SDMA1 PG CONTEXT         NV      */
+	GFX_FW_TYPE_GLOBAL_MUX_SELECT_RAM           = 42,   /* GLOBAL MUX SEL RAM       NV      */
+	GFX_FW_TYPE_SE0_MUX_SELECT_RAM              = 43,   /* SE0 MUX SEL RAM          NV      */
+	GFX_FW_TYPE_SE1_MUX_SELECT_RAM              = 44,   /* SE1 MUX SEL RAM          NV      */
+	GFX_FW_TYPE_ACCUM_CTRL_RAM                  = 45,   /* ACCUM CTRL RAM           NV      */
+	GFX_FW_TYPE_RLCP_CAM                        = 46,   /* RLCP CAM                 NV      */
+	GFX_FW_TYPE_RLC_SPP_CAM_EXT                 = 47,   /* RLC SPP CAM EXT          NV      */
+	GFX_FW_TYPE_RLC_DRAM_BOOT                   = 48,   /* RLC DRAM BOOT            NV      */
+	GFX_FW_TYPE_VCN0_RAM                        = 49,   /* VCN_RAM                  NV + RN */
+	GFX_FW_TYPE_VCN1_RAM                        = 50,   /* VCN_RAM                  NV + RN */
+	GFX_FW_TYPE_DMUB                            = 51,   /* DMUB                          RN */
+	GFX_FW_TYPE_SDMA2                           = 52,   /* SDMA2                    MI      */
+	GFX_FW_TYPE_SDMA3                           = 53,   /* SDMA3                    MI      */
+	GFX_FW_TYPE_SDMA4                           = 54,   /* SDMA4                    MI      */
+	GFX_FW_TYPE_SDMA5                           = 55,   /* SDMA5                    MI      */
+	GFX_FW_TYPE_SDMA6                           = 56,   /* SDMA6                    MI      */
+	GFX_FW_TYPE_SDMA7                           = 57,   /* SDMA7                    MI      */
+	GFX_FW_TYPE_VCN1                            = 58,   /* VCN1                     MI      */
+	GFX_FW_TYPE_CAP                             = 62,   /* CAP_FW                           */
+	GFX_FW_TYPE_SE2_TAP_DELAYS                  = 65,   /* SE2 TAP DELAYS           NV      */
+	GFX_FW_TYPE_SE3_TAP_DELAYS                  = 66,   /* SE3 TAP DELAYS           NV      */
+	GFX_FW_TYPE_REG_LIST                        = 67,   /* REG_LIST                 MI      */
+	GFX_FW_TYPE_IMU_I                           = 68,   /* IMU Instruction FW       SOC21   */
+	GFX_FW_TYPE_IMU_D                           = 69,   /* IMU Data FW              SOC21   */
+	GFX_FW_TYPE_LSDMA                           = 70,   /* LSDMA FW                 SOC21   */
+	GFX_FW_TYPE_SDMA_UCODE_TH0                  = 71,   /* SDMA Thread 0/CTX        SOC21   */
+	GFX_FW_TYPE_SDMA_UCODE_TH1                  = 72,   /* SDMA Thread 1/CTL        SOC21   */
+	GFX_FW_TYPE_PPTABLE                         = 73,   /* PPTABLE                  SOC21   */
+	GFX_FW_TYPE_DISCRETE_USB4                   = 74,   /* dUSB4 FW                 SOC21   */
+	GFX_FW_TYPE_TA                              = 75,   /* SRIOV TA FW UUID         SOC21   */
+	GFX_FW_TYPE_RS64_MES                        = 76,   /* RS64 MES ucode           SOC21   */
+	GFX_FW_TYPE_RS64_MES_STACK                  = 77,   /* RS64 MES stack ucode     SOC21   */
+	GFX_FW_TYPE_RS64_KIQ                        = 78,   /* RS64 KIQ ucode           SOC21   */
+	GFX_FW_TYPE_RS64_KIQ_STACK                  = 79,   /* RS64 KIQ Heap stack      SOC21   */
+	GFX_FW_TYPE_ISP_DATA                        = 80,   /* ISP DATA                 SOC21   */
+	GFX_FW_TYPE_CP_MES_KIQ                      = 81,   /* MES KIQ ucode            SOC21   */
+	GFX_FW_TYPE_MES_KIQ_STACK                   = 82,   /* MES KIQ stack            SOC21   */
+	GFX_FW_TYPE_UMSCH_DATA                      = 83,   /* User Mode Scheduler Data SOC21   */
+	GFX_FW_TYPE_UMSCH_UCODE                     = 84,   /* User Mode Scheduler Ucode SOC21  */
+	GFX_FW_TYPE_UMSCH_CMD_BUFFER                = 85,   /* User Mode Scheduler Command Buffer SOC21 */
+	GFX_FW_TYPE_USB_DP_COMBO_PHY                = 86,   /* USB-Display port Combo   SOC21   */
+	GFX_FW_TYPE_RS64_PFP                        = 87,   /* RS64 PFP                 SOC21   */
+	GFX_FW_TYPE_RS64_ME                         = 88,   /* RS64 ME                  SOC21   */
+	GFX_FW_TYPE_RS64_MEC                        = 89,   /* RS64 MEC                 SOC21   */
+	GFX_FW_TYPE_RS64_PFP_P0_STACK               = 90,   /* RS64 PFP stack P0        SOC21   */
+	GFX_FW_TYPE_RS64_PFP_P1_STACK               = 91,   /* RS64 PFP stack P1        SOC21   */
+	GFX_FW_TYPE_RS64_ME_P0_STACK                = 92,   /* RS64 ME stack P0         SOC21   */
+	GFX_FW_TYPE_RS64_ME_P1_STACK                = 93,   /* RS64 ME stack P1         SOC21   */
+	GFX_FW_TYPE_RS64_MEC_P0_STACK               = 94,   /* RS64 MEC stack P0        SOC21   */
+	GFX_FW_TYPE_RS64_MEC_P1_STACK               = 95,   /* RS64 MEC stack P1        SOC21   */
+	GFX_FW_TYPE_RS64_MEC_P2_STACK               = 96,   /* RS64 MEC stack P2        SOC21   */
+	GFX_FW_TYPE_RS64_MEC_P3_STACK               = 97,   /* RS64 MEC stack P3        SOC21   */
+	GFX_FW_TYPE_MAX
+};
 ```
