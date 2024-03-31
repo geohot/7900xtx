@@ -4,6 +4,12 @@ PFP,ME,CE,MEC (PFP+ME = Drawing Engine)
 
 ## What arch is the firmware?
 
+- The PSP is ARM
+- SDMA+RLC are F32 -- see: https://github.com/fail0verflow/radeon-tools
+- Others (like MEC) are RS64 -- no known docs on this ISA
+
+## Random notes
+
 `watch -n 0.1 'sudo umr -s amd744c.gfx1100 | grep INSTR_PNTR'`
 
 ```
