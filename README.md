@@ -20,9 +20,16 @@ aka Navi31 aka Plum Bonito aka amd744c
 - VCN = Video Core Next (encoder/decoder) (vcn400) (vcn_4_0_0.bin)
 - SDMA = System DMA (lsdma600) (sdma_6_0_0.bin)
 
-## Arch
+More info on each piece:
+https://mjmwired.net/kernel/Documentation/gpu/amdgpu/driver-core.rst
 
-![](docs/arch1.jpg)
+## Architechture Diagram
+
+![](/docs/arch1.jpg)
+
+- 1x 5nm GCD (graphics compute die)
+- 6x 6nm MCD (memory cache die)
+- More about the [Compute Unit](/docs/CU.md)
 
 ## Dumping registers
 
@@ -71,6 +78,9 @@ HSAKMT_DEBUG_LEVEL=7  # user space debugging
 - https://themaister.net/blog/2023/08/20/hardcore-vulkan-debugging-digging-deep-on-linux-amdgpu/
 - https://martty.github.io/posts/radbg_part_4/
 - https://www.phoronix.com/news/AMDGPU-LSDMA-Light-SDMA
+- https://gpuopen.com/presentations/2023/RDNA3_Beyond-the-current-gen-v4.pdf
+- https://bu-icsg.github.io/publications/2022/navisim_pact_2022.pdf
+- https://gpuopen.com/rdna/
 
 ## More Acronyms
 
