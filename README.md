@@ -4,9 +4,9 @@ aka Navi31 aka gfx1100 aka Plum Bonito aka amd744c
 - PSP = Platform Security Processor (ARM)
   - SOS = Secure Operating System (psp_13_0_0_sos.bin)
   - TA = Trusted Application (psp_13_0_0_ta.bin)
-  - KDB
+  - KDB = kernel debugger?
   - TMR = Trusted Memory Region
-- SMU = System Management Unit (smuio1306) (amdgpu/smu_13_0_0.bin)
+- SMU = System Management Unit (smuio1306) (amdgpu/smu_13_0_0.bin) (RS64?)
 - DCN = Display Core Next (dcn320) (amdgpu/dcn_3_2_0_dmcub.bin)
 - GC = Graphics and Compute (gfx1100)
   - [CP](/docs/CP.md) (Command Processor) = PFP,ME,CE,MEC (PFP+ME = Drawing Engine)
