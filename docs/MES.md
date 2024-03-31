@@ -113,3 +113,20 @@ There's two of them with 8 queues each. It's set up by the driver then handed of
 [86163.543334] [drm:amdgpu_ih_process [amdgpu]] amdgpu_ih_process: rptr 2144, wptr 2176
 [86163.543560] [drm:amdgpu_irq_dispatch [amdgpu]] Unregistered interrupt src_id: 51 of client_id:10
 ```
+
+```
+kafka@q:/lib/firmware/amdgpu$ sudo umr -sdma
+[WARNING]: Unknown ASIC [amd744c] should be added to pci.did to get proper name
+
+SDMA 0  RLC 0
+  RB BASE 0x45f000  RPTR 0x2afc0  WPTR 0x2afc0  RPTR_ADDR 0x4015e0  CNTL 0x841817
+
+SDMA 0  RLC 2
+  RB BASE 0x790260600000  RPTR 0x493c  WPTR 0x493c  RPTR_ADDR 0x7902c1482010  CNTL 0x8061825
+
+SDMA 0  RLC 3
+  RB BASE 0x790260800000  RPTR 0x3550  WPTR 0x3550  RPTR_ADDR 0x7902c1480010  CNTL 0x8061825
+
+SDMA 1  RLC 0
+  RB BASE 0x461000  RPTR 0x340  WPTR 0x340  RPTR_ADDR 0x401680  CNTL 0x841817
+```

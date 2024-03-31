@@ -18,3 +18,12 @@ amd744c.gfx1100.regCP_PFP_INSTR_PNTR == 0x00000c00
 ```
 
 Only regCP_MEC_RS64_INSTR_PNTR changes during operation
+
+/lib/firmware/amdgpu/gc_11_0_0_mec.bin
+
+`xxd -g4 /lib/firmware/amdgpu/gc_11_0_0_mec.bin | less`
+
+0x00009123*4 -> 0x2448c
+
+- MEC starts at 0x3000
+- MES starts at 0x5000

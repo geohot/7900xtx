@@ -9,6 +9,8 @@ int main(int argc, char *argv[]) {
     fread(&header, 1, sizeof(header), f);
 
     printf("%s\n", argv[i]);
+    printf("header_version_major: %d\n", header.header_version_major);
+    printf("header_version_minor: %d\n", header.header_version_minor);
     printf("size_bytes: %d\n", header.size_bytes);
     printf("ucode_version: 0x%x\n", header.ucode_version);
     printf("ucode_size_bytes: %d\n", header.ucode_size_bytes);

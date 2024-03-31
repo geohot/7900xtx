@@ -12,13 +12,13 @@ aka Navi31 aka gfx1100 aka Plum Bonito aka amd744c
   - [CP](/docs/CP.md) (Command Processor) = PFP,ME,CE,MEC (PFP+ME = Drawing Engine)
   - PFP = Pre-Fetch Parser (gc_11_0_0_pfp.bin)
   - ME = Micro Engine (gc_11_0_0_me.bin)
-  - RLC = RunList Controller (gc_11_0_0_rlc.bin)
-  - MEC = Micro Engine Compute (gc_11_0_0_mec.bin)
-  - [MES](/docs/MES.md) = Micro Engine Scheduler (gc_11_0_0_mes1.bin) (gc_11_0_0_mes_2.bin)
+  - RLC = RunList Controller (gc_11_0_0_rlc.bin) (F32)
+  - [MEC](/docs/MEC.md) = Micro Engine Compute (gc_11_0_0_mec.bin) (RS64)
+  - [MES](/docs/MES.md) = Micro Engine Scheduler (gc_11_0_0_mes1.bin) (gc_11_0_0_mes_2.bin) (RS64)
   - IMU = Integrated Memory Controller Utility (gc_11_0_0_imu.bin)
   - CE = Constant Engine
 - VCN = Video Core Next (encoder/decoder) (vcn400) (vcn_4_0_0.bin)
-- SDMA = System DMA (lsdma600) (sdma_6_0_0.bin)
+- SDMA = System DMA (lsdma600) (sdma_6_0_0.bin) (F32)
 
 More info on each piece:
 https://mjmwired.net/kernel/Documentation/gpu/amdgpu/driver-core.rst
@@ -61,7 +61,6 @@ TA (Texture Addresser) Bits:
                  TA =>     0.0 % |                 FA =>    44.0 %
                  AL =>    70.0 % |
 ```
-
 
 ## Installing AMDGPU
 
