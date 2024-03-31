@@ -23,7 +23,7 @@ PM4 instead of AQL in ops_kfd.py?
 
 The primary role of an ACE (MEC) is to dispatch blocks from the kernel at the head of an HSA queue to the SEs
 
-The 7900XTX has 6 SEs.
+The 7900XTX has 4 ACEs and 6 Shader Engines as seen in the main diagram.
 
 ```
 kafka@q:/lib/firmware/amdgpu$ sudo umr -cpc
@@ -108,6 +108,9 @@ Pipe 1  Queue 0  VMID 0
 ME 3 Pipe 1: INSTR_PTR 0x48dc (ASM 0x12370)
 ```
 
+The SQ registers are on smc and should be readable with `sudo umr -s gfx1100 -O read_smc` but I can't get it to work.
+
+They are in the reg files prefixed with `ix` instead of `reg`
 
 ```
 kafka@q:~$ sudo umr --waves

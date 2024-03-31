@@ -18,7 +18,7 @@ aka Navi31 aka gfx1100 aka Plum Bonito aka amd744c
   - IMU = Integrated Memory Controller Utility (gc_11_0_0_imu.bin)
   - CE = Constant Engine
 - VCN = Video Core Next (encoder/decoder) (vcn400) (vcn_4_0_0.bin)
-- SDMA = System DMA (lsdma600) (sdma_6_0_0.bin) (F32)
+- [SDMA](/docs/SDMA.md) = System DMA (lsdma600) (sdma_6_0_0.bin) (F32)
 
 More info on each piece:
 https://mjmwired.net/kernel/Documentation/gpu/amdgpu/driver-core.rst
@@ -103,6 +103,8 @@ HSAKMT_DEBUG_LEVEL=7  # user space debugging
 - https://bu-icsg.github.io/publications/2022/navisim_pact_2022.pdf
 - https://gpuopen.com/rdna/
 - https://github.com/fail0verflow/radeon-tools
+- https://github.com/gnif/vendor-reset
+- https://sourceware.org/gdb/current/onlinedocs/gdb.html/AMD-GPU.html
 
 ## More Acronyms
 
