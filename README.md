@@ -14,7 +14,7 @@ aka Navi31 aka Plum Bonito aka amd744c
   - ME = Micro Engine (gc_11_0_0_me.bin)
   - RLC = RunList Controller (gc_11_0_0_rlc.bin)
   - MEC = Micro Engine Compute (gc_11_0_0_mec.bin)
-  - MES = Micro Engine Scheduler (gc_11_0_0_mes1.bin) (gc_11_0_0_mes_2.bin)
+  - [MES](/docs/MES.md) = Micro Engine Scheduler (gc_11_0_0_mes1.bin) (gc_11_0_0_mes_2.bin)
   - IMU = Integrated Memory Controller Utility (gc_11_0_0_imu.bin)
   - CE = Constant Engine
 - VCN = Video Core Next (encoder/decoder) (vcn400) (vcn_4_0_0.bin)
@@ -51,6 +51,7 @@ Enable debug prints in dmesg
 
 ```bash
 sudo su -c "echo 'file drivers/gpu/drm/amd/* +p' > /sys/kernel/debug/dynamic_debug/control"
+echo 0x19F | sudo tee /sys/module/drm/parameters/debug # Enable verbose DRM logging
 HSAKMT_DEBUG_LEVEL=7  # user space debugging
 ```
 
@@ -64,6 +65,7 @@ HSAKMT_DEBUG_LEVEL=7  # user space debugging
 - https://github.com/amezin/amdgpu-pptable
 - https://themaister.net/blog/2023/08/20/hardcore-vulkan-debugging-digging-deep-on-linux-amdgpu/
 - https://martty.github.io/posts/radbg_part_4/
+- https://www.phoronix.com/news/AMDGPU-LSDMA-Light-SDMA
 
 ## More Acronyms
 
