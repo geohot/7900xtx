@@ -13,6 +13,7 @@ The MEC block has 4 independent threads, referred to as "pipes" in engineering a
 
 - https://www.phoronix.com/forums/forum/linux-graphics-x-org-drivers/open-source-amd-linux/856534-amdgpu-questions/page3#post857850
 - https://dl.acm.org/doi/fullHtml/10.1145/3453417.3453432#sec-11
+- https://www.cs.unc.edu/~otternes/papers/rtsj2022.pdf
 
 What is VMID 9? All compute is on "Pipe 0  Queue 2  VMID 9"
 

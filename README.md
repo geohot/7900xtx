@@ -108,6 +108,7 @@ HSAKMT_DEBUG_LEVEL=7  # user space debugging
 
 - MQD: Memory Queue Descriptor
 - GMC: Graphic Memory Controller
+- BACO: Bus Active, Chip Off
 
 ## Listing IP blocks
 
