@@ -20,6 +20,10 @@ aka Navi31 aka Plum Bonito aka amd744c
 - VCN = Video Core Next (encoder/decoder) (vcn400) (vcn_4_0_0.bin)
 - SDMA = System DMA (lsdma600) (sdma_6_0_0.bin)
 
+## Arch
+
+![](docs/arch1.jpg)
+
 ## Dumping registers
 
 ```bash
@@ -57,6 +61,7 @@ HSAKMT_DEBUG_LEVEL=7  # user space debugging
 
 ## Links
 
+- https://www.amd.com/content/dam/amd/en/documents/radeon-tech-docs/instruction-set-architectures/rdna3-shader-instruction-set-architecture-feb-2023_0.pdf
 - https://lists.freedesktop.org/archives/amd-gfx/2022-April/078410.html
 - https://docs.kernel.org/gpu/amdgpu/driver-core.html
 - https://wiki.gentoo.org/wiki/AMDGPU
