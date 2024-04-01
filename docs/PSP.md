@@ -49,3 +49,10 @@ enum psp_bootloader_cmd {
 
 TODO: how do we dump the bootloader and what arch is it?
 
+The SOS is handed in from memory allocated with `amdgpu_bo_create_kernel` in `AMDGPU_GEM_DOMAIN_GTT`
+
+The bootloader appears to copy it in to the GPU, if you change it early it crashes.
+
+- regMP0_SMN_C2PMSG_81 = sol_reg (is sos alive, this is polled after load)
+- regMP0_SMN_C2PMSG_36 = address
+- regMP0_SMN_C2PMSG_35 = psp_bootloader_cmd
