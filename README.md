@@ -7,16 +7,17 @@ aka Navi31 aka gfx1100 aka Plum Bonito aka amd744c
   - KDB = kernel debugger?
   - TMR = Trusted Memory Region
 - SMU = System Management Unit (smuio1306) (amdgpu/smu_13_0_0.bin) (RS64?)
-- DCN = Display Core Next (dcn320) (amdgpu/dcn_3_2_0_dmcub.bin)
 - GC = Graphics and Compute (gfx1100)
-  - [CP](/docs/CP.md) (Command Processor) = PFP,ME,CE,MEC (PFP+ME = Drawing Engine)
-  - PFP = Pre-Fetch Parser (gc_11_0_0_pfp.bin)
-  - ME = Micro Engine (gc_11_0_0_me.bin)
+  - [CP](/docs/CP.md) (Command Processor) = PFP,ME,CE,MEC
+  - Drawing Engine (idle during compute)
+    - PFP = Pre-Fetch Parser (gc_11_0_0_pfp.bin)
+    - ME = Micro Engine (gc_11_0_0_me.bin)
   - RLC = RunList Controller (gc_11_0_0_rlc.bin) (F32)
   - [MEC](/docs/MEC.md) = Micro Engine Compute (gc_11_0_0_mec.bin) (RS64)
   - [MES](/docs/MES.md) = Micro Engine Scheduler (gc_11_0_0_mes1.bin) (gc_11_0_0_mes_2.bin) (RS64)
   - IMU = Integrated Memory Controller Utility (gc_11_0_0_imu.bin)
-  - CE = Constant Engine
+  - CE = Constant Engine (not on RDNA3?)
+- DCN = Display Core Next (dcn320) (amdgpu/dcn_3_2_0_dmcub.bin)
 - VCN = Video Core Next (encoder/decoder) (vcn400) (vcn_4_0_0.bin)
 - [SDMA](/docs/SDMA.md) = System DMA (lsdma600) (sdma_6_0_0.bin) (F32)
 
