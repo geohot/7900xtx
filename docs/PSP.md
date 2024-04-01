@@ -56,3 +56,18 @@ The bootloader appears to copy it in to the GPU, if you change it early it crash
 - regMP0_SMN_C2PMSG_81 = sol_reg (is sos alive, this is polled after load)
 - regMP0_SMN_C2PMSG_36 = address
 - regMP0_SMN_C2PMSG_35 = psp_bootloader_cmd
+
+## Trusted Application
+
+The "applications" that run in the PSP
+
+- HDCP = High-bandwidth Digital Content Protection
+- DTM = Dynamic Thermal Management?
+- RAS = Reliability, Availability, and Serviceability?
+
+```
+kafka@q:/lib/firmware/amdgpu$ strings psp_13_0_0_ta.bin | grep Application
+AMD HDCP Application
+AMD DTM Application
+AMD RAS Application
+```
