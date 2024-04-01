@@ -228,37 +228,37 @@ VBIOS version: 113-D7020100-102
 ## Firmware loads
 
 ```
-[ 1370.296802] psp_prep_load_ip_fw_cmd_buf: 0000000000C49000  type:18 sz:0x3fe00
-[ 1431.136232] psp_prep_load_ip_fw_cmd_buf: 0000000000C49000  type:18 sz:0x3fe00
-[ 1432.229979] psp_prep_load_ip_fw_cmd_buf: 0000000000A00000  type:71 sz:0x4400
-[ 1432.234035] psp_prep_load_ip_fw_cmd_buf: 0000000000A05000  type:72 sz:0x4200
-[ 1432.237930] psp_prep_load_ip_fw_cmd_buf: 0000000000A0A000  type:87 sz:0x10b70
-[ 1432.242088] psp_prep_load_ip_fw_cmd_buf: 0000000000A1B000  type:88 sz:0xc350
-[ 1432.246220] psp_prep_load_ip_fw_cmd_buf: 0000000000A28000  type:89 sz:0x41520
-[ 1432.252719] psp_prep_load_ip_fw_cmd_buf: 0000000000A6A000  type:90 sz:0x22000
-[ 1432.256295] psp_prep_load_ip_fw_cmd_buf: 0000000000A8C000  type:91 sz:0x22000
-[ 1432.259908] psp_prep_load_ip_fw_cmd_buf: 0000000000AAE000  type:92 sz:0x22000
-[ 1432.263390] psp_prep_load_ip_fw_cmd_buf: 0000000000AD0000  type:93 sz:0x22000
-[ 1432.267162] psp_prep_load_ip_fw_cmd_buf: 0000000000AF2000  type:94 sz:0x22000
-[ 1432.271029] psp_prep_load_ip_fw_cmd_buf: 0000000000B14000  type:95 sz:0x22000
-[ 1432.274775] psp_prep_load_ip_fw_cmd_buf: 0000000000B36000  type:96 sz:0x22000
-[ 1432.278344] psp_prep_load_ip_fw_cmd_buf: 0000000000B58000  type:97 sz:0x22000
-[ 1432.281782] psp_prep_load_ip_fw_cmd_buf: 0000000000B7A000  type:33 sz:0x26900
-[ 1432.286907] psp_prep_load_ip_fw_cmd_buf: 0000000000BA1000  type:34 sz:0x20000
-[ 1432.290773] psp_prep_load_ip_fw_cmd_buf: 0000000000BC1000  type:81 sz:0x139f0
-[ 1432.295392] psp_prep_load_ip_fw_cmd_buf: 0000000000BD5000  type:82 sz:0x20000
-[ 1432.299012] psp_prep_load_ip_fw_cmd_buf: 0000000000BF5000  type:68 sz:0x10200
-[ 1432.303549] psp_prep_load_ip_fw_cmd_buf: 0000000000C06000  type:69 sz:0x10200
-[ 1432.307778] psp_prep_load_ip_fw_cmd_buf: 0000000000C17000  type:20 sz:0xa00
-[ 1432.311519] psp_prep_load_ip_fw_cmd_buf: 0000000000C18000  type:21 sz:0x8da0
-[ 1432.315520] psp_prep_load_ip_fw_cmd_buf: 0000000000C21000  type:26 sz:0x10200
-[ 1432.319925] psp_prep_load_ip_fw_cmd_buf: 0000000000C32000  type:48 sz:0x8200
-[ 1432.323649] psp_prep_load_ip_fw_cmd_buf: 0000000000C3B000  type:25 sz:0x2200
-[ 1432.327185] psp_prep_load_ip_fw_cmd_buf: 0000000000C3E000  type:7 sz:0x3200
-[ 1432.331122] psp_prep_load_ip_fw_cmd_buf: 0000000000C42000  type:8 sz:0x6200
-[ 1432.335348] psp_prep_load_ip_fw_cmd_buf: 0000000000C89000  type:13 sz:0x5dc50
-[ 1432.343011] psp_prep_load_ip_fw_cmd_buf: 0000000000CE7000  type:58 sz:0x5dc50
-[ 1432.350895] psp_prep_load_ip_fw_cmd_buf: 0000000000D45000  type:51 sz:0x41690
+[ 1370.296802] psp_prep_load_ip_fw_cmd_buf: 0000000000C49000  type:18 sz:0x3fe00  # GFX_FW_TYPE_SMU
+[ 1431.136232] psp_prep_load_ip_fw_cmd_buf: 0000000000C49000  type:18 sz:0x3fe00  # GFX_FW_TYPE_SMU
+[ 1432.229979] psp_prep_load_ip_fw_cmd_buf: 0000000000A00000  type:71 sz:0x4400   # GFX_FW_TYPE_SDMA_UCODE_TH0
+[ 1432.234035] psp_prep_load_ip_fw_cmd_buf: 0000000000A05000  type:72 sz:0x4200   # GFX_FW_TYPE_SDMA_UCODE_TH1
+[ 1432.237930] psp_prep_load_ip_fw_cmd_buf: 0000000000A0A000  type:87 sz:0x10b70  # GFX_FW_TYPE_RS64_PFP
+[ 1432.242088] psp_prep_load_ip_fw_cmd_buf: 0000000000A1B000  type:88 sz:0xc350   # GFX_FW_TYPE_RS64_ME
+[ 1432.246220] psp_prep_load_ip_fw_cmd_buf: 0000000000A28000  type:89 sz:0x41520  # GFX_FW_TYPE_RS64_MEC
+[ 1432.252719] psp_prep_load_ip_fw_cmd_buf: 0000000000A6A000  type:90 sz:0x22000  # GFX_FW_TYPE_RS64_PFP_P0_STACK
+[ 1432.256295] psp_prep_load_ip_fw_cmd_buf: 0000000000A8C000  type:91 sz:0x22000  # GFX_FW_TYPE_RS64_PFP_P1_STACK
+[ 1432.259908] psp_prep_load_ip_fw_cmd_buf: 0000000000AAE000  type:92 sz:0x22000  # GFX_FW_TYPE_RS64_ME_P0_STACK
+[ 1432.263390] psp_prep_load_ip_fw_cmd_buf: 0000000000AD0000  type:93 sz:0x22000  # GFX_FW_TYPE_RS64_ME_P1_STACK
+[ 1432.267162] psp_prep_load_ip_fw_cmd_buf: 0000000000AF2000  type:94 sz:0x22000  # GFX_FW_TYPE_RS64_MEC_P0_STACK
+[ 1432.271029] psp_prep_load_ip_fw_cmd_buf: 0000000000B14000  type:95 sz:0x22000  # GFX_FW_TYPE_RS64_MEC_P1_STACK
+[ 1432.274775] psp_prep_load_ip_fw_cmd_buf: 0000000000B36000  type:96 sz:0x22000  # GFX_FW_TYPE_RS64_MEC_P2_STACK
+[ 1432.278344] psp_prep_load_ip_fw_cmd_buf: 0000000000B58000  type:97 sz:0x22000  # GFX_FW_TYPE_RS64_MEC_P3_STACK
+[ 1432.281782] psp_prep_load_ip_fw_cmd_buf: 0000000000B7A000  type:33 sz:0x26900  # GFX_FW_TYPE_CP_MES
+[ 1432.286907] psp_prep_load_ip_fw_cmd_buf: 0000000000BA1000  type:34 sz:0x20000  # GFX_FW_TYPE_MES_STACK
+[ 1432.290773] psp_prep_load_ip_fw_cmd_buf: 0000000000BC1000  type:81 sz:0x139f0  # GFX_FW_TYPE_CP_MES_KIQ
+[ 1432.295392] psp_prep_load_ip_fw_cmd_buf: 0000000000BD5000  type:82 sz:0x20000  # GFX_FW_TYPE_MES_KIQ_STACK
+[ 1432.299012] psp_prep_load_ip_fw_cmd_buf: 0000000000BF5000  type:68 sz:0x10200  # GFX_FW_TYPE_IMU_I
+[ 1432.303549] psp_prep_load_ip_fw_cmd_buf: 0000000000C06000  type:69 sz:0x10200  # GFX_FW_TYPE_IMU_D
+[ 1432.307778] psp_prep_load_ip_fw_cmd_buf: 0000000000C17000  type:20 sz:0xa00    # GFX_FW_TYPE_RLC_RESTORE_LIST_GPM_MEM
+[ 1432.311519] psp_prep_load_ip_fw_cmd_buf: 0000000000C18000  type:21 sz:0x8da0   # GFX_FW_TYPE_RLC_RESTORE_LIST_SRM_MEM
+[ 1432.315520] psp_prep_load_ip_fw_cmd_buf: 0000000000C21000  type:26 sz:0x10200  # GFX_FW_TYPE_RLC_IRAM
+[ 1432.319925] psp_prep_load_ip_fw_cmd_buf: 0000000000C32000  type:48 sz:0x8200   # GFX_FW_TYPE_RLC_DRAM_BOOT
+[ 1432.323649] psp_prep_load_ip_fw_cmd_buf: 0000000000C3B000  type:25 sz:0x2200   # GFX_FW_TYPE_RLC_P
+[ 1432.327185] psp_prep_load_ip_fw_cmd_buf: 0000000000C3E000  type:7 sz:0x3200    # GFX_FW_TYPE_RLC_V
+[ 1432.331122] psp_prep_load_ip_fw_cmd_buf: 0000000000C42000  type:8 sz:0x6200    # GFX_FW_TYPE_RLC_G
+[ 1432.335348] psp_prep_load_ip_fw_cmd_buf: 0000000000C89000  type:13 sz:0x5dc50  # GFX_FW_TYPE_VCN
+[ 1432.343011] psp_prep_load_ip_fw_cmd_buf: 0000000000CE7000  type:58 sz:0x5dc50  # GFX_FW_TYPE_VCN1
+[ 1432.350895] psp_prep_load_ip_fw_cmd_buf: 0000000000D45000  type:51 sz:0x41690  # GFX_FW_TYPE_DMUB
 ```
 
 ```C
