@@ -8,14 +8,15 @@ int main(int argc, char *argv[]) {
     struct common_firmware_header header;
     fread(&header, 1, sizeof(header), f);
 
-    printf("%s\n", argv[i]);
+    /*printf("%s\n", argv[i]);
     printf("header_version_major: %d\n", header.header_version_major);
     printf("header_version_minor: %d\n", header.header_version_minor);
     printf("size_bytes: %d\n", header.size_bytes);
     printf("ucode_version: 0x%x\n", header.ucode_version);
     printf("ucode_size_bytes: %d\n", header.ucode_size_bytes);
     printf("ucode_array_offset_bytes: 0x%x\n", header.ucode_array_offset_bytes);
-    printf("\n");
+    printf("\n");*/
+    printf("%-40s ucode_size_bytes:0x%x\n", argv[i], header.ucode_size_bytes);
     fclose(f);
   }
 

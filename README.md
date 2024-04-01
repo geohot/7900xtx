@@ -226,6 +226,23 @@ VBIOS version: 113-D7020100-102
 [80569.089068] amdgpu_ucode_request amdgpu/sdma_6_0_0.bin
 ```
 
+```
+kafka@q:~/7900xtx/fwinfo$ ./go.sh
+/lib/firmware/amdgpu/psp_13_0_0_sos.bin  ucode_size_bytes:0x41710
+/lib/firmware/amdgpu/psp_13_0_0_ta.bin   ucode_size_bytes:0x39400
+/lib/firmware/amdgpu/smu_13_0_0.bin      ucode_size_bytes:0x3fe00
+/lib/firmware/amdgpu/gc_11_0_0_pfp.bin   ucode_size_bytes:0x32b70
+/lib/firmware/amdgpu/gc_11_0_0_me.bin    ucode_size_bytes:0x2e350
+/lib/firmware/amdgpu/gc_11_0_0_rlc.bin   ucode_size_bytes:0x6200
+/lib/firmware/amdgpu/gc_11_0_0_mec.bin   ucode_size_bytes:0x63520
+/lib/firmware/amdgpu/gc_11_0_0_mes_2.bin ucode_size_bytes:0x46900
+/lib/firmware/amdgpu/gc_11_0_0_mes1.bin  ucode_size_bytes:0x339f0
+/lib/firmware/amdgpu/gc_11_0_0_imu.bin   ucode_size_bytes:0x20400
+/lib/firmware/amdgpu/dcn_3_2_0_dmcub.bin ucode_size_bytes:0x41690
+/lib/firmware/amdgpu/vcn_4_0_0.bin       ucode_size_bytes:0x5dc50
+/lib/firmware/amdgpu/sdma_6_0_0.bin      ucode_size_bytes:0x8600
+```
+
 ## Firmware loads
 
 ```
