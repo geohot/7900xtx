@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
     printf("ucode_size_bytes: %d\n", header.ucode_size_bytes);
     printf("ucode_array_offset_bytes: 0x%x\n", header.ucode_array_offset_bytes);
     printf("\n");*/
-    printf("%-40s ucode_size_bytes:0x%x\n", argv[i], header.ucode_size_bytes);
+    printf("%-40s size_bytes:0x%5X ucode_size_bytes:0x%x\n", argv[i], header.size_bytes, header.ucode_size_bytes);
     fclose(f);
   }
 
