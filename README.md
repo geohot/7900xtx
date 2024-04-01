@@ -4,7 +4,7 @@ aka Navi31 aka gfx1100 aka Plum Bonito aka amd744c
 - [PSP](/docs/PSP.md) = Platform Security Processor (ARM)
   - SOS = Secure Operating System (psp_13_0_0_sos.bin)
   - TA = Trusted Application (psp_13_0_0_ta.bin)
-  - KDB = kernel debugger?
+  - KDB = Key DataBase
   - TMR = Trusted Memory Region
 - SMU = System Management Unit (smuio1306) (amdgpu/smu_13_0_0.bin) (RS64?)
 - GC = Graphics and Compute (gfx1100)
