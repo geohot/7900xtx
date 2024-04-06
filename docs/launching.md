@@ -1,0 +1,197 @@
+# Launching a Kernel
+
+- https://llvm.org/docs/AMDGPUUsage.html#kernel-dispatch - Discusses launching a kernel with AQL
+- https://github.com/ROCm/ROCT-Thunk-Interface - Low level driver interface with PM4 examples
+  - See Dispatch.cpp in BuildIb for how to launch a kernel in PM4
+- https://www.cs.unc.edu/~otternes/papers/rtsj2022.pdf - Our favorite paper about AMD GPU!
+- https://repo.radeon.com/.hidden/cfa27af7066b8ebd5c73d75110183a62/docs/Change%20Summary_6.0.3_Known_Issues%20(1).pdf
+  - These changes need to be coupled with updated CP firmware which properly enables out of order dispatches when processing AQL dispatch packets.
+  - If we use PM4, do we bypass this?
+- https://gpuopen.com/learn/understanding-gpu-context-rolls/
+
+## Questions
+
+- Where do AQL packets get processed / converted to PM4?
+  - Processed in the MEC, never converted to PM4
+- How to launch a kernel with PM4 packets?
+
+## CPC register data
+
+```
+kafka@q:~/tinygrad$ CNT=200 KFD=1 NOOPT=1 python3 extra/gemm/simple_matmul.py
+AQL Queue address: 7EBED26F7000
+AQL Ring address: 7EBE76B00000
+EOP Buffer address: 7EBED242A000
+enqueued
+```
+
+```
+kafka@q:~/tinygrad$ sudo umr -cpc
+...
+Pipe 0  Queue 2  VMID 8
+  PQ BASE 0x7ebe76b00000  RPTR 0x450  WPTR 0xca0  RPTR_ADDR 0x7ebed26f7080  CNTL 0x8084511
+  EOP BASE 0x7ebed242a000  RPTR 0x40000220  WPTR 0x3ff8220  WPTR_MEM 0x220
+  MQD 0xd87200  DEQ_REQ 0x0  IQ_TIMER 0x0  AQL_CONTROL 0x1
+  SAVE BASE 0x7ebe72bfe000  SIZE 0x2c02000  STACK OFFSET 0xa000  SIZE 0xa000
+```
+
+PQ BASE is just the AQL packets.
+
+The registers are `SRBM` banked, dump with `sudo umr -s amd744c.gfx1100 --sbank 1 0 2`
+
+`--sbank, -sb <me> <pipe> <queue> [vmid]`
+
+```
+kafka@q:~/tinygrad$ sudo umr -s amd744c.gfx1100 --sbank 1 0 2 | grep CP_HQD
+[WARNING]: Unknown ASIC [amd744c] should be added to pci.did to get proper name
+amd744c.gfx1100.regCP_HQD_ACTIVE == 0x00000001
+amd744c.gfx1100.regCP_HQD_AQL_CONTROL == 0x00000001
+amd744c.gfx1100.regCP_HQD_ATOMIC0_PREOP_HI == 0x00000000
+amd744c.gfx1100.regCP_HQD_ATOMIC0_PREOP_LO == 0x00000000
+amd744c.gfx1100.regCP_HQD_ATOMIC1_PREOP_HI == 0x00000000
+amd744c.gfx1100.regCP_HQD_ATOMIC1_PREOP_LO == 0x00000000
+amd744c.gfx1100.regCP_HQD_CNTL_STACK_OFFSET == 0x0000a000
+amd744c.gfx1100.regCP_HQD_CNTL_STACK_SIZE == 0x0000a000
+amd744c.gfx1100.regCP_HQD_CTX_SAVE_BASE_ADDR_HI == 0x00007ae0
+amd744c.gfx1100.regCP_HQD_CTX_SAVE_BASE_ADDR_LO == 0xcbefe000
+amd744c.gfx1100.regCP_HQD_CTX_SAVE_CONTROL == 0x00000000
+amd744c.gfx1100.regCP_HQD_CTX_SAVE_SIZE == 0x02c02000
+amd744c.gfx1100.regCP_HQD_DDID_DELTA_RPT_COUNT == 0x00000000
+amd744c.gfx1100.regCP_HQD_DDID_INFLIGHT_COUNT == 0x00000000
+amd744c.gfx1100.regCP_HQD_DDID_RPTR == 0x00000000
+amd744c.gfx1100.regCP_HQD_DDID_WPTR == 0x00000000
+amd744c.gfx1100.regCP_HQD_DEQUEUE_REQUEST == 0x00000000
+amd744c.gfx1100.regCP_HQD_DEQUEUE_STATUS == 0x00000000
+amd744c.gfx1100.regCP_HQD_DMA_OFFLOAD == 0x00000000
+amd744c.gfx1100.regCP_HQD_EOP_BASE_ADDR == 0xe12b6e90
+amd744c.gfx1100.regCP_HQD_EOP_BASE_ADDR_HI == 0x0000007a
+amd744c.gfx1100.regCP_HQD_EOP_CONTROL == 0x00000009
+amd744c.gfx1100.regCP_HQD_EOP_EVENTS == 0x00000000
+amd744c.gfx1100.regCP_HQD_EOP_RPTR == 0x40000388
+amd744c.gfx1100.regCP_HQD_EOP_WPTR == 0x03ff8388
+amd744c.gfx1100.regCP_HQD_EOP_WPTR_MEM == 0x00000388
+amd744c.gfx1100.regCP_HQD_ERROR == 0x00000000
+amd744c.gfx1100.regCP_HQD_GDS_RESOURCE_STATE == 0x00000000
+amd744c.gfx1100.regCP_HQD_GFX_CONTROL == 0x00000000
+amd744c.gfx1100.regCP_HQD_GFX_STATUS == 0x00000000
+amd744c.gfx1100.regCP_HQD_HQ_CONTROL0 == 0x00000000
+amd744c.gfx1100.regCP_HQD_HQ_CONTROL1 == 0x00000000
+amd744c.gfx1100.regCP_HQD_HQ_SCHEDULER0 == 0x0000c0c0
+amd744c.gfx1100.regCP_HQD_HQ_SCHEDULER1 == 0x00000000
+amd744c.gfx1100.regCP_HQD_HQ_STATUS0 == 0x0000c0c0
+amd744c.gfx1100.regCP_HQD_HQ_STATUS1 == 0x00000000
+amd744c.gfx1100.regCP_HQD_IB_BASE_ADDR == 0x2b29b000
+amd744c.gfx1100.regCP_HQD_IB_BASE_ADDR_HI == 0x00007ae1
+amd744c.gfx1100.regCP_HQD_IB_CONTROL == 0x00300000
+amd744c.gfx1100.regCP_HQD_IB_RPTR == 0x00000008
+amd744c.gfx1100.regCP_HQD_IQ_RPTR == 0x00000000
+amd744c.gfx1100.regCP_HQD_IQ_TIMER == 0x00000000
+amd744c.gfx1100.regCP_HQD_MSG_TYPE == 0x00000000
+amd744c.gfx1100.regCP_HQD_OFFLOAD == 0x00000000
+amd744c.gfx1100.regCP_HQD_PERSISTENT_STATE == 0xc0085501
+amd744c.gfx1100.regCP_HQD_PIPE_PRIORITY == 0x00000002
+amd744c.gfx1100.regCP_HQD_PQ_BASE == 0xe0cfb000
+amd744c.gfx1100.regCP_HQD_PQ_BASE_HI == 0x0000007a
+amd744c.gfx1100.regCP_HQD_PQ_CONTROL == 0x08084511
+amd744c.gfx1100.regCP_HQD_PQ_DOORBELL_CONTROL == 0xe0004002
+amd744c.gfx1100.regCP_HQD_PQ_RPTR == 0x00000720
+amd744c.gfx1100.regCP_HQD_PQ_RPTR_REPORT_ADDR == 0x2bbd0080
+amd744c.gfx1100.regCP_HQD_PQ_RPTR_REPORT_ADDR_HI == 0x00007ae1
+amd744c.gfx1100.regCP_HQD_PQ_WPTR_HI == 0x00000000
+amd744c.gfx1100.regCP_HQD_PQ_WPTR_LO == 0x00000ca0
+amd744c.gfx1100.regCP_HQD_PQ_WPTR_POLL_ADDR == 0x2bbd0038
+amd744c.gfx1100.regCP_HQD_PQ_WPTR_POLL_ADDR_HI == 0x00007ae1
+amd744c.gfx1100.regCP_HQD_QUANTUM == 0x00000111
+amd744c.gfx1100.regCP_HQD_QUEUE_PRIORITY == 0x0000000f
+amd744c.gfx1100.regCP_HQD_SEMA_CMD == 0x00000000
+amd744c.gfx1100.regCP_HQD_SUSPEND_CNTL_STACK_DW_CNT == 0x00000000
+amd744c.gfx1100.regCP_HQD_SUSPEND_CNTL_STACK_OFFSET == 0x00000000
+amd744c.gfx1100.regCP_HQD_SUSPEND_WG_STATE_OFFSET == 0x00000000
+amd744c.gfx1100.regCP_HQD_VMID == 0x00000808
+amd744c.gfx1100.regCP_HQD_WG_STATE_OFFSET == 0x0000a000
+```
+
+## Compute registers! (what you set with PM4 packets)
+
+For dumping compute registers, only the ME and pipe matter because this is after the queue (MEC).
+
+Kernels are launched by setting these COMPUTE registers from a AQL/PM4 queue.
+
+```
+kafka@q:~/tinygrad$ sudo umr -s amd744c.gfx1100 --sbank 1 0 2 | grep regCOMPUTE
+[WARNING]: Unknown ASIC [amd744c] should be added to pci.did to get proper name
+amd744c.gfx1100.regCOMPUTE_DDID_INDEX == 0x00000000
+amd744c.gfx1100.regCOMPUTE_DESTINATION_EN_SE0 == 0xffffffff
+amd744c.gfx1100.regCOMPUTE_DESTINATION_EN_SE1 == 0xffffffff
+amd744c.gfx1100.regCOMPUTE_DESTINATION_EN_SE2 == 0xffffffff
+amd744c.gfx1100.regCOMPUTE_DESTINATION_EN_SE3 == 0xffffffff
+amd744c.gfx1100.regCOMPUTE_DIM_X == 0x00001000
+amd744c.gfx1100.regCOMPUTE_DIM_Y == 0x00001000
+amd744c.gfx1100.regCOMPUTE_DIM_Z == 0x00000001
+amd744c.gfx1100.regCOMPUTE_DISPATCH_END == 0x00000000
+amd744c.gfx1100.regCOMPUTE_DISPATCH_ID == 0x0000001b
+amd744c.gfx1100.regCOMPUTE_DISPATCH_INITIATOR == 0x00009025
+amd744c.gfx1100.regCOMPUTE_DISPATCH_INTERLEAVE == 0x00000000
+amd744c.gfx1100.regCOMPUTE_DISPATCH_PKT_ADDR_HI == 0x00000000
+amd744c.gfx1100.regCOMPUTE_DISPATCH_PKT_ADDR_LO == 0x0000001c
+amd744c.gfx1100.regCOMPUTE_DISPATCH_SCRATCH_BASE_HI == 0x00000070
+amd744c.gfx1100.regCOMPUTE_DISPATCH_SCRATCH_BASE_LO == 0xf342ffe0
+amd744c.gfx1100.regCOMPUTE_DISPATCH_TUNNEL == 0x00000000
+amd744c.gfx1100.regCOMPUTE_MISC_RESERVED == 0x00000000
+amd744c.gfx1100.regCOMPUTE_NOWHERE == 0x00000000
+amd744c.gfx1100.regCOMPUTE_NUM_THREAD_X == 0x00000001
+amd744c.gfx1100.regCOMPUTE_NUM_THREAD_Y == 0x00000001
+amd744c.gfx1100.regCOMPUTE_NUM_THREAD_Z == 0x00000001
+amd744c.gfx1100.regCOMPUTE_PERFCOUNT_ENABLE == 0x00000000
+amd744c.gfx1100.regCOMPUTE_PGM_HI == 0x00000170
+amd744c.gfx1100.regCOMPUTE_PGM_LO == 0xf3ba6ea6
+amd744c.gfx1100.regCOMPUTE_PGM_RSRC1 == 0x40bf00c0
+amd744c.gfx1100.regCOMPUTE_PGM_RSRC2 == 0x000001dc
+amd744c.gfx1100.regCOMPUTE_PGM_RSRC3 == 0x00000000
+amd744c.gfx1100.regCOMPUTE_PIPELINESTAT_ENABLE == 0x00000001
+amd744c.gfx1100.regCOMPUTE_RELAUNCH == 0x5dc00288
+amd744c.gfx1100.regCOMPUTE_RELAUNCH2 == 0x00000000
+amd744c.gfx1100.regCOMPUTE_REQ_CTRL == 0x00000000
+amd744c.gfx1100.regCOMPUTE_RESOURCE_LIMITS == 0x00000000
+amd744c.gfx1100.regCOMPUTE_RESTART_X == 0x00000000
+amd744c.gfx1100.regCOMPUTE_RESTART_Y == 0x00000000
+amd744c.gfx1100.regCOMPUTE_RESTART_Z == 0x00000000
+amd744c.gfx1100.regCOMPUTE_SHADER_CHKSUM == 0x00000000
+amd744c.gfx1100.regCOMPUTE_START_X == 0x00000000
+amd744c.gfx1100.regCOMPUTE_START_Y == 0x00000000
+amd744c.gfx1100.regCOMPUTE_START_Z == 0x00000000
+amd744c.gfx1100.regCOMPUTE_STATIC_THREAD_MGMT_SE0 == 0xffffffff
+amd744c.gfx1100.regCOMPUTE_STATIC_THREAD_MGMT_SE1 == 0xffffffff
+amd744c.gfx1100.regCOMPUTE_STATIC_THREAD_MGMT_SE2 == 0xffffffff
+amd744c.gfx1100.regCOMPUTE_STATIC_THREAD_MGMT_SE3 == 0xffffffff
+amd744c.gfx1100.regCOMPUTE_STATIC_THREAD_MGMT_SE4 == 0xffffffff
+amd744c.gfx1100.regCOMPUTE_STATIC_THREAD_MGMT_SE5 == 0xffffffff
+amd744c.gfx1100.regCOMPUTE_STATIC_THREAD_MGMT_SE6 == 0xffffffff
+amd744c.gfx1100.regCOMPUTE_STATIC_THREAD_MGMT_SE7 == 0xffffffff
+amd744c.gfx1100.regCOMPUTE_THREADGROUP_ID == 0x00000000
+amd744c.gfx1100.regCOMPUTE_THREAD_TRACE_ENABLE == 0x00000000
+amd744c.gfx1100.regCOMPUTE_TMPRING_SIZE == 0x00200200
+amd744c.gfx1100.regCOMPUTE_USER_ACCUM_0 == 0x00000000
+amd744c.gfx1100.regCOMPUTE_USER_ACCUM_1 == 0x00000000
+amd744c.gfx1100.regCOMPUTE_USER_ACCUM_2 == 0x00000000
+amd744c.gfx1100.regCOMPUTE_USER_ACCUM_3 == 0x00000000
+amd744c.gfx1100.regCOMPUTE_USER_DATA_0 == 0x5dc00288
+amd744c.gfx1100.regCOMPUTE_USER_DATA_1 == 0x000070f3
+amd744c.gfx1100.regCOMPUTE_USER_DATA_10 == 0x00000000
+amd744c.gfx1100.regCOMPUTE_USER_DATA_11 == 0x00000000
+amd744c.gfx1100.regCOMPUTE_USER_DATA_12 == 0x00000000
+amd744c.gfx1100.regCOMPUTE_USER_DATA_13 == 0x00000000
+amd744c.gfx1100.regCOMPUTE_USER_DATA_14 == 0x00000000
+amd744c.gfx1100.regCOMPUTE_USER_DATA_15 == 0x00000000
+amd744c.gfx1100.regCOMPUTE_USER_DATA_2 == 0x00000000
+amd744c.gfx1100.regCOMPUTE_USER_DATA_3 == 0x00000000
+amd744c.gfx1100.regCOMPUTE_USER_DATA_4 == 0x00000000
+amd744c.gfx1100.regCOMPUTE_USER_DATA_5 == 0x00000000
+amd744c.gfx1100.regCOMPUTE_USER_DATA_6 == 0x00000000
+amd744c.gfx1100.regCOMPUTE_USER_DATA_7 == 0x00000000
+amd744c.gfx1100.regCOMPUTE_USER_DATA_8 == 0x00000000
+amd744c.gfx1100.regCOMPUTE_USER_DATA_9 == 0x00000000
+amd744c.gfx1100.regCOMPUTE_VMID == 0x00000000
+amd744c.gfx1100.regCOMPUTE_WAVE_RESTORE_ADDR_HI == 0x00000000
+amd744c.gfx1100.regCOMPUTE_WAVE_RESTORE_ADDR_LO == 0x000070f3
+```

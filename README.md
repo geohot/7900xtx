@@ -8,7 +8,7 @@ aka Navi31 aka gfx1100 aka Plum Bonito aka amd744c
   - TMR = Trusted Memory Region
 - SMU = System Management Unit (smuio1306) (amdgpu/smu_13_0_0.bin) (RS64?)
 - GC = Graphics and Compute (gfx1100)
-  - [CP](/docs/CP.md) (Command Processor) = PFP,ME,CE,MEC
+  - [CP](/docs/CP.md) (Command Processor) = an umbrella term for the PFP,ME,MEC and maybe RLC,MES
   - Drawing Engine (idle during compute)
     - PFP = Pre-Fetch Parser (gc_11_0_0_pfp.bin)
     - ME = Micro Engine (gc_11_0_0_me.bin)
@@ -16,13 +16,17 @@ aka Navi31 aka gfx1100 aka Plum Bonito aka amd744c
   - [MEC](/docs/MEC.md) = Micro Engine Compute (gc_11_0_0_mec.bin) (RS64)
   - [MES](/docs/MES.md) = Micro Engine Scheduler (gc_11_0_0_mes1.bin) (gc_11_0_0_mes_2.bin) (RS64)
   - IMU = Integrated Memory Controller Utility (gc_11_0_0_imu.bin)
-  - CE = Constant Engine (not on RDNA3?)
 - DCN = Display Core Next (dcn320) (amdgpu/dcn_3_2_0_dmcub.bin)
 - VCN = Video Core Next (encoder/decoder) (vcn400) (vcn_4_0_0.bin)
 - [SDMA](/docs/SDMA.md) = System DMA (lsdma600) (sdma_6_0_0.bin) (F32)
 
 More info on each piece:
 https://mjmwired.net/kernel/Documentation/gpu/amdgpu/driver-core.rst
+
+## Documenting Flows
+
+- [Launching a kernel](/docs/launching.md)
+- Device/Firmware bringup
 
 ## Architechture Diagram
 
@@ -98,6 +102,7 @@ HSAKMT_DEBUG_LEVEL=7  # user space debugging
 - https://www.kernel.org/doc/html/v6.8/gpu/amdgpu/amdgpu-glossary.html
 - https://github.com/amezin/amdgpu-pptable
 - https://themaister.net/blog/2023/08/20/hardcore-vulkan-debugging-digging-deep-on-linux-amdgpu/
+- https://martty.github.io/posts/radbg_part_3/
 - https://martty.github.io/posts/radbg_part_4/
 - https://www.phoronix.com/news/AMDGPU-LSDMA-Light-SDMA
 - https://gpuopen.com/presentations/2023/RDNA3_Beyond-the-current-gen-v4.pdf
@@ -106,12 +111,26 @@ HSAKMT_DEBUG_LEVEL=7  # user space debugging
 - https://github.com/fail0verflow/radeon-tools
 - https://github.com/gnif/vendor-reset
 - https://sourceware.org/gdb/current/onlinedocs/gdb.html/AMD-GPU.html
+- https://www.x.org/docs/AMD/old/R5xx_Acceleration_v1.2.pdf
+- https://www.amd.com/content/dam/amd/en/documents/radeon-tech-docs/programmer-references/si_programming_guide_v2.pdf
 
 ## More Acronyms
 
 - MQD: Memory Queue Descriptor
 - GMC: Graphic Memory Controller
 - BACO: Bus Active, Chip Off
+- VMID: Virtual Memory Identifiers (Each VMID is associated with its own page table.)
+	- 0 - GFX hub
+	- 1 - MM hub
+	- 2 - VC0 hub
+	- 3 - VC1 hub
+	- 8 and 9 - User programs?
+- HQD: Hardware Queue Descriptor
+- PQ: Packet Queue
+- HWS: HardWare Scheduling
+- EOP: End Of Pipe/Pipeline
+- SRBM: System Register Bus Manager
+- GRBM: Graphics Register Bus Manager
 
 ## Listing IP blocks
 
