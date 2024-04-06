@@ -238,3 +238,40 @@ Main Registers:
            ixSQ_WAVE_EXEC_HI: 00000000 |     ixSQ_WAVE_HW_ID1: 200c0e03 |     ixSQ_WAVE_HW_ID2: 09010102 |  ixSQ_WAVE_GPR_ALLOC: bebebeef |
          ixSQ_WAVE_LDS_ALLOC: bebebeef |    ixSQ_WAVE_TRAPSTS: 101ebcef |     ixSQ_WAVE_IB_STS: bc00bee7 |    ixSQ_WAVE_IB_STS2: bebebeef |
            ixSQ_WAVE_IB_DBG1: bebebeef |         ixSQ_WAVE_M0: bebebeef |       ixSQ_WAVE_MODE: bebebeef |
+
+## Looking into the firmware
+
+- polaris10_mec.bin <- f32dis works
+- vega10_mec.bin <- f32dis doesn't work great, but it's still f32, and we still found DISPATCH_DIRECT
+- gc_11_0_1_mec.bin <- f32?
+- gc_11_0_0_mec.bin <- rs64
+
+Multiply the register numbers by 4 to match with the rai file. From
+
+```
+# python3 f32dis.py /lib/firmware/amdgpu/polaris10_mec.bin | grep -A20 DISPATCH_DIRECT
+DISPATCH_DIRECT:
+    stw #0x1, [r0, #0x29]
+    ldw r3, [r0, #0x5e]
+    cbz r3, _PKT_0xa_14
+    mov r6, r1
+    mov r4, r1
+    mov r5, r1
+    mov r3, r1
+    stw #0x2, [r0, #0x13]
+    stw r6, reg[r0, #0x2e01]  # 0xb804 = COMPUTE_DIM_X
+    stw r4, reg[r0, #0x2e02]
+    stw r5, reg[r0, #0x2e03]
+    stw r3, reg[r0, #0x2e00]  # 0xb800 = COMPUTE_DISPATCH_INITIATOR
+    ...
+```
+
+```
+# python3 f32dis.py /lib/firmware/amdgpu/gc_11_0_1_mec.bin | grep -A10 -B10 e01
+    stw r1, reg[r0, #0x2e01]
+    stw r1, reg[r0, #0x2e02]
+    stw r1, reg[r0, #0x2e03]
+    mov r3, r1
+    stw r3, reg[r0, #0x2e00]
+```
+
