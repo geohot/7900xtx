@@ -8,7 +8,7 @@ aka Navi31 aka gfx1100 aka Plum Bonito aka amd744c
   - TMR = Trusted Memory Region
 - SMU = System Management Unit (smuio1306) (amdgpu/smu_13_0_0.bin) (RS64?)
 - GC = Graphics and Compute (gfx1100)
-  - [CP](/docs/CP.md) (Command Processor) = an umbrella term for the PFP,ME,MEC and maybe RLC,MES
+  - [CP](/docs/CP.md) (Command Processor) = an umbrella term for the PFP,ME,MEC,MES
   - Drawing Engine (idle during compute)
     - PFP = Pre-Fetch Parser (gc_11_0_0_pfp.bin)
     - ME = Micro Engine (gc_11_0_0_me.bin)
@@ -120,11 +120,11 @@ HSAKMT_DEBUG_LEVEL=7  # user space debugging
 - GMC: Graphic Memory Controller
 - BACO: Bus Active, Chip Off
 - VMID: Virtual Memory Identifiers (Each VMID is associated with its own page table.)
-	- 0 - GFX hub
-	- 1 - MM hub
-	- 2 - VC0 hub
-	- 3 - VC1 hub
-	- 8 and 9 - User programs?
+  - 0 - GFX hub
+  - 1 - MM hub
+  - 2 - VC0 hub
+  - 3 - VC1 hub
+  - 8 and 9 - User programs?
 - HQD: Hardware Queue Descriptor
 - PQ: Packet Queue
 - HWS: HardWare Scheduling

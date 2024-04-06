@@ -113,9 +113,9 @@ amd744c.gfx1100.regCP_HQD_WG_STATE_OFFSET == 0x0000a000
 
 ## Compute registers! (what you set with PM4 packets)
 
-For dumping compute registers, only the ME and pipe matter because this is after the queue (MEC).
-
 Kernels are launched by setting these COMPUTE registers from a AQL/PM4 queue.
+
+For dumping compute registers, only the ME and pipe matter in the bank because this is after the queue (MEC).
 
 ```
 kafka@q:~/tinygrad$ sudo umr -s amd744c.gfx1100 --sbank 1 0 2 | grep regCOMPUTE
