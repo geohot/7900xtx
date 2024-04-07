@@ -248,6 +248,9 @@ Main Registers:
 
 Multiply the register numbers by 4 to match with the rai file. From
 
+0x00001260 = GC base address
++0x1ba1 = 0x2e01
+
 ```
 # python3 f32dis.py /lib/firmware/amdgpu/polaris10_mec.bin | grep -A20 DISPATCH_DIRECT
 DISPATCH_DIRECT:
