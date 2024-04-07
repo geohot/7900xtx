@@ -32,7 +32,7 @@ RS64 = RISCV/RV64I + a few custom instructions! Load (at least MEC) with offset 
 
 ## Architechture Diagram
 
-![](/docs/arch1.jpg)
+![](/docs/img/arch1.jpg)
 
 - 1x 5nm GCD (graphics compute die)
 - 6x 6nm MCD (memory cache die)
@@ -133,6 +133,7 @@ HSAKMT_DEBUG_LEVEL=7  # user space debugging
 - EOP: End Of Pipe/Pipeline
 - SRBM: System Register Bus Manager
 - GRBM: Graphics Register Bus Manager
+- [HSA](/docs/HSA.md) = Heterogeneous System Architecture
 
 ## Listing IP blocks
 
