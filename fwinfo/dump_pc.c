@@ -4,13 +4,15 @@
 #include <unistd.h>
 #include <sys/mman.h>
 
-// clang -O2 dump_ip.c && sudo ./a.out
+// clang -O2 dump_pc.c && sudo ./a.out
 
 #define GC_BASE_ADDR 0xA000
 #define regCP_MEC_RS64_INSTR_PNTR  0x2908
 #define regCP_MEC_RS64_CNTL 0x2904
 #define regCP_MEC_ME1_UCODE_ADDR 0x581a
 #define regCP_MEC_ME1_UCODE_DATA 0x581b
+
+#define regGRBM_GFX_CNTL 0x900
 
 #define MEC_HALT 1<<30
 #define MEC_STEP 1<<31
@@ -24,6 +26,16 @@ int histogram[MAX_ADDR] = {0};
 int main() {
   int fd = open("/sys/kernel/debug/dri/0/amdgpu_regs2", O_RDWR);
   int val;
+  int dump;
+
+  pread(fd, &dump, 4, (GC_BASE_ADDR + regGRBM_GFX_CNTL)*4);
+  printf("%x\n", dump);
+
+  dump = 1;  // PIPEID = 1
+  pwrite(fd, &dump, 4, (GC_BASE_ADDR + regGRBM_GFX_CNTL)*4);
+
+  //pread(fd, &dump, 4, (GC_BASE_ADDR + regGRBM_GFX_CNTL)*4);
+  //printf("%x\n", dump);
 
   // dump
   /*val = 0x100000;
@@ -64,7 +76,6 @@ int main() {
     printf("MAP FAILED\n");
     return -1;
   }*/
-  int dump;
   for (int i = 0; i < DUMP_COUNT; i++) {
     pread(fd, &dump, 4, (GC_BASE_ADDR + regCP_MEC_RS64_INSTR_PNTR)*4);
     //pread(fd, &dump, 4, (GC_BASE_ADDR + tmp)*4);
