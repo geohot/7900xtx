@@ -23,6 +23,8 @@ aka Navi31 aka gfx1100 aka Plum Bonito aka amd744c
 More info on each piece:
 https://mjmwired.net/kernel/Documentation/gpu/amdgpu/driver-core.rst
 
+RS64 = RISCV/RV64I + a few custom instructions! Load (at least MEC) with offset 0x200
+
 ## Documenting Flows
 
 - [Launching a kernel](/docs/launching.md)

@@ -25,6 +25,8 @@ S = 0x200  # 000091DC   1C058C63
 #S = 0x3200
 c2 = mec_rs64[S:]
 
+with open("/tmp/mec.bin", "wb") as f: f.write(c2)
+
 """
 # kernel wait loop
 kafka@q:~/7900xtx/fwinfo$ clang -O2 dump_ip.c && sudo ./a.out
@@ -47,14 +49,27 @@ kafka@q:~/7900xtx/fwinfo$ clang -O2 dump_ip.c && sudo ./a.out
     91dc : 93357 <-- branch 638C051C
 """
 
-def disasm(addr):
-  i2 = struct.unpack(">I", c2[addr*4:addr*4+4])[0]
-  #print(f"{addr:08X}   {i2:08X} {bin(i2 | (1 << 32)):s}")
-  print(f"{bin(i2 | (1 << 32)):s} {i2:08X}")
+from capstone import *
+md = Cs(CS_ARCH_RISCV, CS_MODE_RISCV64)
 
-for i in range(0x1000): disasm(0xc00 + i)
-#for i in range(0x80): disasm(0x400 + i)
-#for i in range(50): disasm(0x91b0 + i)
+# 73 = unconditional absolute branch ???
+
+# oooooo11 ssss ???
+
+# 01101111 ssss 0000 iiiiiiiiiiii = mov 16-bit immediate into s (6f) ???
+
+# python rosetta.py | sort | uniq -c | less
+def disasm(addr):
+  out = md.disasm(c2[addr*4:addr*4+4], addr)
+  ins = [o for o in out]
+  i2 = struct.unpack(">I", c2[addr*4:addr*4+4])[0]
+  print(f"{addr*4:08X}   {i2:08X} {bin(i2 | (1 << 32))[3:]:s}", ins)
+  #print(f"{bin(i2 | (1 << 32))[3:]:s} {i2:08X}")
+
+#for i in range(0x10): disasm(0x9120 + i)
+#for i in range(0x10000): disasm(0xc00 + i)
+#for i in range(0x100): disasm(0x400 + i)
+for i in range(0x40): disasm(0x91bc + i)
 
 exit(0)
 
