@@ -19,6 +19,7 @@ aka Navi31 aka gfx1100 aka Plum Bonito aka amd744c
 - DCN = Display Core Next (dcn320) (amdgpu/dcn_3_2_0_dmcub.bin)
 - VCN = Video Core Next (encoder/decoder) (vcn400) (vcn_4_0_0.bin)
 - [SDMA](/docs/SDMA.md) = System DMA (lsdma600) (sdma_6_0_0.bin) (F32)
+- [HSA](/docs/HSA.md) = Heterogeneous System Architecture
 
 More info on each piece:
 https://mjmwired.net/kernel/Documentation/gpu/amdgpu/driver-core.rst
@@ -32,7 +33,7 @@ RS64 = RISCV/RV64I + a few custom instructions! Load (at least MEC) with offset 
 
 ## Architechture Diagram
 
-![](/docs/arch1.jpg)
+![](/docs/img/arch1.jpg)
 
 - 1x 5nm GCD (graphics compute die)
 - 6x 6nm MCD (memory cache die)
