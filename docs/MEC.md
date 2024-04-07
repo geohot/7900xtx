@@ -25,6 +25,24 @@ The primary role of an ACE (MEC) is to dispatch blocks from the kernel at the he
 
 The 7900XTX has 4 ACEs and 6 Shader Engines as seen in the main diagram.
 
+## Understanding firmware
+
+Based off c55ab5e8ba327ef3b219234291b7c4fc2f91248c  gc_11_0_0_mec_new.bin
+
+Load with offset+0x200
+
+- 0x13d80 = context_switch?
+- 0x16800 = context_switch_alt?
+- 0x24788 = wait_for_queue
+- 0x285e8 = PACKET3_DISPATCH_DIRECT
+- 0x2aa30 = PACKET3_NOP?
+- 0x2b768 = PACKET3_SET_SH_REG
+- 0x1080800000000 = MMIO (see make_ghidra_script.py to import MMIO regs)
+- 0x1000200000000 = alt MMIO
+- s11=0x100020000c000 (it's fixed)
+
+## Dumping queues
+
 ```
 kafka@q:/lib/firmware/amdgpu$ sudo umr -cpc
 [WARNING]: Unknown ASIC [amd744c] should be added to pci.did to get proper name
