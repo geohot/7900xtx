@@ -29,18 +29,26 @@ The 7900XTX has 4 ACEs and 6 Shader Engines as seen in the main diagram.
 
 Based off c55ab5e8ba327ef3b219234291b7c4fc2f91248c  gc_11_0_0_mec_new.bin
 
-Load with offset=0x200
-Load stack @ 0x10000 with offset 0x41720
+Load with offset=0x200 length 0x41520
+Load stack @ 0x100000 with offset 0x41720 length 0x21f00
 
+- 0x7000000000000 = text
+- 0x7000000001000 = irq handler
+- 0x7000000003000 = start
+- 0x7000000100000 = stack
 - 0x13d80 = context_switch?
 - 0x16800 = context_switch_alt?
 - 0x24788 = wait_for_queue
 - 0x285e8 = PACKET3_DISPATCH_DIRECT
 - 0x2aa30 = PACKET3_NOP?
 - 0x2b768 = PACKET3_SET_SH_REG
-- 0x1080800000000 = MMIO (see make_ghidra_script.py to import MMIO regs)
-- 0x1000200000000 = alt MMIO
-- s11=0x100020000c000 (it's fixed)
+- 0x1080800000000 = MMIO (see make_ghidra_script.py to import MMIO regs, region is 0x40000)
+- 0x1000800000000 = alt8 MMIO
+- 0x1000200000000 = alt2 MMIO
+- 0x1000100000000 = alt1 MMIO
+- s11=0x100020000c000
+- s10=0x1000100009124
+- s9=0x10001000308c0
 
 ## Dumping queues
 
