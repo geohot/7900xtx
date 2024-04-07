@@ -9,6 +9,8 @@
 #define GC_BASE_ADDR 0xA000
 #define regCP_MEC_RS64_INSTR_PNTR  0x2908
 #define regCP_MEC_RS64_CNTL 0x2904
+#define regCP_MEC_ME1_UCODE_ADDR 0x581a
+#define regCP_MEC_ME1_UCODE_DATA 0x581b
 
 #define MEC_HALT 1<<30
 #define MEC_STEP 1<<31
@@ -21,10 +23,21 @@ int histogram[MAX_ADDR] = {0};
 
 int main() {
   int fd = open("/sys/kernel/debug/dri/0/amdgpu_regs2", O_RDWR);
+  int val;
+
+  // dump
+  /*val = 0x100000;
+  pwrite(fd, &val, 4, (GC_BASE_ADDR + regCP_MEC_ME1_UCODE_ADDR)*4);
+
+  for (int i = 0; i < 0x1000; i++) {
+    pread(fd, &val, 4, (GC_BASE_ADDR + regCP_MEC_ME1_UCODE_DATA)*4);
+    printf("%4X: %8X\n", i, val);
+  }
+
+  exit(0);*/
 
   // halting crashes the GPU
 
-  int val;
 
   /*val = MEC_HALT;
   pwrite(fd, &val, 4, (GC_BASE_ADDR + regCP_MEC_RS64_CNTL)*4);
