@@ -13,6 +13,8 @@ for x in regs:
 for addr,name in regs_dict.items():
   gaddr = 0x1080800000000 + addr*4
   print(f"{name} 0x{gaddr:X}")
+  #gaddr = 0x1000200000000 + addr*4
+  #print(f"{name.replace('reg', 'alt')} 0x{gaddr:X}")
 
 # regCP_HQD_PERSISTENT_STATE 0 0x1fad 18 0 0 +0x1260
 # regSDMA0_QUEUE1_RB_BASE 0 0xd9 1 0 0

@@ -238,6 +238,7 @@ Main Registers:
            ixSQ_WAVE_EXEC_HI: 00000000 |     ixSQ_WAVE_HW_ID1: 200c0e03 |     ixSQ_WAVE_HW_ID2: 09010102 |  ixSQ_WAVE_GPR_ALLOC: bebebeef |
          ixSQ_WAVE_LDS_ALLOC: bebebeef |    ixSQ_WAVE_TRAPSTS: 101ebcef |     ixSQ_WAVE_IB_STS: bc00bee7 |    ixSQ_WAVE_IB_STS2: bebebeef |
            ixSQ_WAVE_IB_DBG1: bebebeef |         ixSQ_WAVE_M0: bebebeef |       ixSQ_WAVE_MODE: bebebeef |
+```
 
 ## Looking into the firmware
 
