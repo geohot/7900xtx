@@ -1,6 +1,7 @@
 # Documentation for the 7900XTX
 aka Navi31 aka gfx1100 aka Plum Bonito aka amd744c
 
+- DRM = Direct Rendering Manager
 - [PSP](/docs/PSP.md) = Platform Security Processor (ARM)
   - SOS = Secure Operating System (psp_13_0_0_sos.bin)
   - TA = Trusted Application (psp_13_0_0_ta.bin)
