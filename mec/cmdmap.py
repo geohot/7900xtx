@@ -10,13 +10,13 @@ from hexdump import hexdump
 dat = open("gc_11_0_0_mec.bin", "rb").read()[0x200:].strip(b"\x00")
 
 #offset = dat.find(b"\x24\x50\xf0\xff")
-offset = dat.find(b"\x3c\x50\xf0\xff")
-cmdtable = dat[offset:offset+300*4]
 #cmdtable = dat[offset:] #offset+300*4+0x1000]
 #offset = struct.unpack("H"*(len(cmdtable)//2), cmdtable)
-offset = struct.unpack("i"*(len(cmdtable)//4), cmdtable)
-found = [0x285e8, 0x2aa30, 0x2b768]
 
+# this is correct (just useless for PM4?)
+offset = dat.find(b"\x3c\x50\xf0\xff")
+cmdtable = dat[offset:offset+300*4]
+offset = struct.unpack("i"*(len(cmdtable)//4), cmdtable)
 offsets = [(42,0x100148), (72,0x1001f0), (8,0x100310), (16,0x100330),
            (16,0x100370), (23,0x1003b0), (15,0x10040c), (18,0x100448),
            (7,0x100490), (7,0x1004ac), (34,0x1004c8), (21,0x100550),
@@ -24,10 +24,9 @@ offsets = [(42,0x100148), (72,0x1001f0), (8,0x100310), (16,0x100330),
 exoffsets = []
 for cnt,num in offsets:
   exoffsets += [num]*cnt
-print(sum([x[0] for x in offsets]))
-
+assert len(exoffsets) == len(offset)
 for i,o in enumerate(offset):
-  print(i, hex(exoffsets[i]), hex(exoffsets[i]+o))
+  print(i, hex(exoffsets[i]), hex(exoffsets[i]+o), hex(0x100000000+o))
 exit(0)
 
 for o1 in offset:

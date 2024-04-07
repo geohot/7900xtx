@@ -29,7 +29,8 @@ The 7900XTX has 4 ACEs and 6 Shader Engines as seen in the main diagram.
 
 Based off c55ab5e8ba327ef3b219234291b7c4fc2f91248c  gc_11_0_0_mec_new.bin
 
-Load with offset+0x200
+Load with offset=0x200
+Load stack @ 0x10000 with offset 0x41720
 
 - 0x13d80 = context_switch?
 - 0x16800 = context_switch_alt?
