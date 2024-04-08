@@ -39,10 +39,12 @@ Load stack @ 0x100000 with offset 0x41720 length 0x21f00
 - 0x13d80 = context_switch?
 - 0x16800 = context_switch_alt?
 - 0x24788 = wait_for_queue
+- NOTE: the jumptable comes from regCP_MEC_ME1_UCODE_ADDR/regCP_MEC_ME1_UCODE_DATA
 - PM4 commands, how do I find these? (used tracer)
   - 0x285e8 = PACKET3_DISPATCH_DIRECT
   - 0x2aa30 = PACKET3_NOP
   - 0x2b768 = PACKET3_SET_SH_REG
+  - 0x2be70 = PACKET3_ACQUIRE_MEM
 - 0x1080800000000 = MMIO (see make_ghidra_script.py to import MMIO regs, region is 0x40000)
 - 0x1000800000000 = alt8 MMIO
 - 0x1000200000000 = alt2 MMIO

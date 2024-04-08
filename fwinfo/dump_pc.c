@@ -10,17 +10,21 @@
 #define GC_BASE_ADDR 0xA000
 #define regCP_MEC_RS64_INSTR_PNTR  0x2908
 #define regCP_MEC_RS64_CNTL 0x2904
-#define regCP_MEC_ME1_UCODE_ADDR 0x581a
-#define regCP_MEC_ME1_UCODE_DATA 0x581b
 #define regCP_GFX_RS64_INSTR_PNTR0 0x2a44
 #define regCP_GFX_RS64_INSTR_PNTR1 0x2a45
+#define regCP_MEC_RS64_INTERRUPT 0x2907
+
+#define regCP_MEC_ME1_UCODE_ADDR 0x581a
+#define regCP_MEC_ME1_UCODE_DATA 0x581b
+#define regCP_MEC_ME2_UCODE_ADDR 0x581c
+#define regCP_MEC_ME2_UCODE_DATA 0x581d
 
 #define regGRBM_GFX_CNTL 0x900
 
 #define MEC_HALT 1<<30
 #define MEC_STEP 1<<31
 
-#define DUMP_COUNT 0x40000
+#define DUMP_COUNT 0x100000
 int dumps[DUMP_COUNT];
 
 #define MAX_ADDR 0x100000
@@ -53,7 +57,17 @@ int main() {
   volatile unsigned int *a = (unsigned int*)mmap(0, SZ, PROT_READ, MAP_PRIVATE, pfd, 0);
   printf("mapped %p\n", a);
 
+  dump = 0;
+  pwrite(fd, &dump, 4, (GC_BASE_ADDR + regCP_MEC_ME1_UCODE_ADDR)*4);
+  for (int i = 0; i < 0x80; i++) {
+    ret = pread(fd, &dump, 4, (GC_BASE_ADDR + regCP_MEC_ME1_UCODE_DATA)*4);
+    printf("%x: %x\n", i, dump);
+  }
+  exit(0);
+
+
   for (int i = 0; i < DUMP_COUNT; i++) {
+    //dumps[i] = a[GC_BASE_ADDR + regCP_MEC_RS64_INTERRUPT];
     dumps[i] = a[GC_BASE_ADDR + regCP_MEC_RS64_INSTR_PNTR];
     //pread(fd, &dumps[i], 4, (GC_BASE_ADDR + regCP_MEC_RS64_INSTR_PNTR)*4);
   }
