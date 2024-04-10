@@ -133,6 +133,7 @@ HSAKMT_DEBUG_LEVEL=7  # user space debugging
 - EOP: End Of Pipe/Pipeline
 - SRBM: System Register Bus Manager
 - GRBM: Graphics Register Bus Manager
+- HDP: Host Data Port
 
 ## Listing IP blocks
 
