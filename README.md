@@ -139,6 +139,7 @@ HSAKMT_DEBUG_LEVEL=7  # user space debugging
   - TCP: Texture Cache per Pipe (private L1 data)
   - SQC (inst): Sequencer Cache (shared L1 instruction)
   - SQC (data): Sequencer Cache (shared L1 data)
+- TCC: Texture Cache per Channel (shared L2)
 
 ## Listing IP blocks
 
