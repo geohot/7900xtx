@@ -115,6 +115,7 @@ HSAKMT_DEBUG_LEVEL=7  # user space debugging
 - https://sourceware.org/gdb/current/onlinedocs/gdb.html/AMD-GPU.html
 - https://www.x.org/docs/AMD/old/R5xx_Acceleration_v1.2.pdf
 - https://www.amd.com/content/dam/amd/en/documents/radeon-tech-docs/programmer-references/si_programming_guide_v2.pdf
+- https://old.gem5.org/wiki/images/1/19/AMD_gem5_APU_simulator_isca_2018_gem5_wiki.pdf
 
 ## More Acronyms
 
@@ -134,6 +135,10 @@ HSAKMT_DEBUG_LEVEL=7  # user space debugging
 - SRBM: System Register Bus Manager
 - GRBM: Graphics Register Bus Manager
 - HDP: Host Data Port
+- gfxhub (see APU simulator docs)
+  - TCP: Texture Cache per Pipe (private L1 data)
+  - SQC (inst): Sequencer Cache (shared L1 instruction)
+  - SQC (data): Sequencer Cache (shared L1 data)
 
 ## Listing IP blocks
 
