@@ -2,7 +2,7 @@
 
 It's where compute happens
 
-![](/docs/big_compute-unit-pair.jpg)
+![](/docs/img/big_compute-unit-pair.jpg)
 
 7900XTX has 96 compute units (48 work-group processors)
 
