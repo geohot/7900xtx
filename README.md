@@ -140,6 +140,7 @@ HSAKMT_DEBUG_LEVEL=7  # user space debugging
   - SQC (inst): Sequencer Cache (shared L1 instruction)
   - SQC (data): Sequencer Cache (shared L1 data)
 - TCC: Texture Cache per Channel (shared L2)
+- CWSR: Compute Wave Store and Resume [code](https://lists.freedesktop.org/archives/amd-gfx/2017-November/016069.html)
 
 ## Listing IP blocks
 
